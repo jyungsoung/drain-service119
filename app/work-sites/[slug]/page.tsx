@@ -1,0 +1,4 @@
+import { notFound } from "next/navigation";
+import { workCases } from "../cases-data";
+export function generateStaticParams(){return workCases.map(c=>({slug:c.slug}))}
+export default async function WorkCasePage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const c=workCases.find(x=>x.slug===slug);if(!c)notFound();return <main className="regionPage"><nav className="regionBreadcrumb"><a href="/">홈</a><span>›</span><a href="/work-sites">시공현장</a><span>›</span><b>{c.title}</b></nav><article className="workCaseDetail"><p className="kicker">{c.area} · {c.date}</p><h1>{c.title}</h1><figure><img src={c.image} alt={c.title}/></figure><p className="workCaseLead">{c.summary}</p>{c.details.map((p,i)=><p key={i}>{p}</p>)}<a className="primary compact" href="tel:16681321">비슷한 증상 상담하기</a></article></main>}
