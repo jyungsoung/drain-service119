@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://drain-service119.netlify.app/sitemap.xml
