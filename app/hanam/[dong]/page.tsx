@@ -66,7 +66,7 @@ export default async function DongDrainPage({ params }: PageProps) {
           <div className="heroActions"><a className="primary" href="tel:16681321">{area.name} 전화 상담 <b>1668-1321</b></a><a className="secondary" href="#symptom">증상별 점검 보기 ↓</a></div>
           <div className="trust"><span>✓ 작업 전 설명</span><span>✓ 증상별 장비 선택</span><span>✓ 하남 지역 상담</span></div>
         </div>
-        <figure><img src="/images/plumber-worker.png" alt={`${area.name} 배관막힘 현장에서 내시경 장비로 점검하는 작업자`} /><figcaption><small>{area.name} 배관 점검</small><strong>눈앞의 물만 빼기보다<br />막힌 구간을 먼저 확인합니다.</strong></figcaption></figure>
+        <figure><img src="/images/plumber-worker.webp" alt={`${area.name} 배관막힘 현장에서 내시경 장비로 점검하는 작업자`} /><figcaption><small>{area.name} 배관 점검</small><strong>눈앞의 물만 빼기보다<br />막힌 구간을 먼저 확인합니다.</strong></figcaption></figure>
       </section>
 
       <section className="dongQuick" id="service"><b>{area.name} 주요 상담</b><span>싱크대막힘</span><span>변기막힘</span><span>하수구막힘</span><span>배관 내시경</span><span>고압세척</span></section>
@@ -79,7 +79,7 @@ export default async function DongDrainPage({ params }: PageProps) {
       </section>
 
       <section className="dongEquipment" id="work-site">
-        <figure><img src="/images/inspection-equipment.png" alt={`${area.name} 하수구막힘 점검용 배관 내시경과 고압세척 장비`} /></figure>
+        <figure><img src="/images/inspection-equipment.webp" alt={`${area.name} 하수구막힘 점검용 배관 내시경과 고압세척 장비`} /></figure>
         <div><p className="kicker light">EQUIPMENT</p><h2>막힘 위치와 오염 범위에<br />맞는 장비를 선택합니다</h2><p>짧은 구간의 이물질은 트랩 점검이나 스프링 작업을 검토하고, 배관 안쪽 상태를 확인해야 할 때는 내시경을 사용합니다. 긴 배관에 유지방과 슬러지가 넓게 쌓였거나 반복해서 막힌다면 배관 재질과 접근 위치를 확인한 뒤 고압세척 범위를 안내합니다.</p><a href="/work-sites">시공현장 업데이트 보기 →</a></div>
       </section>
 

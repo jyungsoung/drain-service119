@@ -2,13 +2,13 @@ import HanamMap from "./HanamMap";
 import { hanamDongs } from "./hanam/dong-data";
 
 const services = [
-  { title: "24시간 상담", image: "/images/service-consultation.png", alt: "응급배관119 전화 상담 담당자" },
-  { title: "신속 출동", image: "/images/service-dispatch.png", alt: "장비를 들고 출동하는 배관 작업자" },
-  { title: "배관 고압세척", image: "/images/inspection-equipment.png", alt: "배관 고압세척 전문 장비" },
-  { title: "배관 내시경", image: "/images/plumber-worker.png", alt: "배관 내시경으로 내부를 점검하는 작업자" },
-  { title: "싱크대 막힘", image: "/images/sink-service.png", alt: "싱크대 하부 배관을 점검하는 작업자" },
-  { title: "변기 막힘", image: "/images/service-toilet.png", alt: "변기 막힘을 점검하는 배관 작업자" },
-  { title: "누수탐지", image: "/images/service-leak-detection.png", alt: "전문 장비로 누수 지점을 탐지하는 작업자" },
+  { title: "24시간 상담", image: "/images/service-consultation.webp", alt: "응급배관119 전화 상담 담당자" },
+  { title: "신속 출동", image: "/images/service-dispatch.webp", alt: "장비를 들고 출동하는 배관 작업자" },
+  { title: "배관 고압세척", image: "/images/inspection-equipment.webp", alt: "배관 고압세척 전문 장비" },
+  { title: "배관 내시경", image: "/images/plumber-worker.webp", alt: "배관 내시경으로 내부를 점검하는 작업자" },
+  { title: "싱크대 막힘", image: "/images/sink-service.webp", alt: "싱크대 하부 배관을 점검하는 작업자" },
+  { title: "변기 막힘", image: "/images/service-toilet.webp", alt: "변기 막힘을 점검하는 배관 작업자" },
+  { title: "누수탐지", image: "/images/service-leak-detection.webp", alt: "전문 장비로 누수 지점을 탐지하는 작업자" },
 ];
 
 const steps = [
@@ -85,7 +85,7 @@ export default function Home() {
           <div className="trust"><span>✓ 작업 전 설명</span><span>✓ 현장 맞춤 장비</span><span>✓ 하남 지역 출동</span></div>
         </div>
         <div className="heroVisual photoHero">
-          <img src="/images/plumber-worker.png" alt="하남 주택 싱크대 배관을 내시경 장비로 점검하는 배관 작업자" />
+          <img src="/images/plumber-worker.webp" alt="하남 주택 싱크대 배관을 내시경 장비로 점검하는 배관 작업자" />
           <div className="photoLabel"><small>현장 중심 정밀 진단</small><strong>보이는 증상보다<br />배관 속 원인을 확인합니다.</strong></div>
         </div>
       </section>
@@ -102,8 +102,8 @@ export default function Home() {
       <section className="workSection" id="work">
         <div className="workTitle"><p className="kicker">REAL WORK</p><h2>현장에서 직접 확인하고<br />필요한 장비로 작업합니다</h2><p>싱크대 아래 배관부터 내시경 진단과 고압세척 장비까지, 증상과 배관 상태에 맞춰 작업 범위를 결정합니다.</p></div>
         <div className="workGallery">
-          <figure className="workLarge"><img src="/images/sink-service.png" alt="싱크대 하부 배수 트랩을 분리해 점검하는 작업" /><figcaption><b>싱크대 배관 점검</b><span>트랩과 연결 배관의 막힘 상태 확인</span></figcaption></figure>
-          <figure><img src="/images/inspection-equipment.png" alt="배관 내시경과 고압세척 전문 장비" /><figcaption><b>전문 진단·세척 장비</b><span>내시경 카메라 · 고압세척기 · 전용 호스</span></figcaption></figure>
+          <figure className="workLarge"><img src="/images/sink-service.webp" alt="싱크대 하부 배수 트랩을 분리해 점검하는 작업" /><figcaption><b>싱크대 배관 점검</b><span>트랩과 연결 배관의 막힘 상태 확인</span></figcaption></figure>
+          <figure><img src="/images/inspection-equipment.webp" alt="배관 내시경과 고압세척 전문 장비" /><figcaption><b>전문 진단·세척 장비</b><span>내시경 카메라 · 고압세척기 · 전용 호스</span></figcaption></figure>
         </div>
       </section>
 
@@ -154,7 +154,7 @@ export default function Home() {
 
         <section className="articleSection equipmentSection" id="equipment-guide">
           <div className="equipmentCopy"><p className="kicker">EQUIPMENT</p><h2>스프링·석션·내시경·고압세척,<br />상태에 맞춰 선택합니다</h2><p>모든 막힘에 같은 장비를 사용하는 것은 아닙니다. 배관 입구의 이물질이나 짧은 구간의 막힘은 트랩 점검과 스프링 장비로 확인할 수 있습니다. 물과 찌꺼기를 흡입해야 하는 상황에서는 석션 장비를 검토하고, 막힌 위치나 배관 내부 상태를 눈으로 확인해야 할 때는 배관 내시경을 사용합니다.</p><p>긴 배관에 유지방과 슬러지가 넓게 붙어 있거나 단순 통수 후 반복해서 막히는 경우에는 고압세척이 필요한지 판단합니다. 고압세척은 배관 길이, 재질, 접근 위치와 배수 경로를 확인한 뒤 작업 범위를 정해야 하므로 전화만으로 무조건 결정하지 않습니다.</p></div>
-          <figure><img src="/images/inspection-equipment.png" alt="하남 하수구막힘 점검에 사용하는 배관 내시경과 고압세척 장비" /><figcaption>배관 내시경과 고압세척 장비는 막힘 위치와 배관 상태에 따라 선택합니다.</figcaption></figure>
+          <figure><img src="/images/inspection-equipment.webp" alt="하남 하수구막힘 점검에 사용하는 배관 내시경과 고압세척 장비" /><figcaption>배관 내시경과 고압세척 장비는 막힘 위치와 배관 상태에 따라 선택합니다.</figcaption></figure>
         </section>
 
         <section className="articleSection" id="building-guide">
@@ -169,7 +169,7 @@ export default function Home() {
 
         <section className="articleSection workExample">
           <div><p className="kicker">WORK FLOW</p><h2>하남 배관막힘<br />대표 점검 흐름</h2><ol><li><b>증상 확인</b><span>배수 속도, 역류, 악취, 소리와 발생 시점을 확인합니다.</span></li><li><b>접근 구간 점검</b><span>트랩과 연결 호스, 벽 배관 등 확인 가능한 부분부터 살펴봅니다.</span></li><li><b>원인 구간 진단</b><span>필요하면 내시경과 장비로 막힘 위치와 오염 정도를 좁혀갑니다.</span></li><li><b>작업 범위 설명</b><span>현장 상태에 맞는 장비와 작업 범위를 안내한 후 진행합니다.</span></li><li><b>배수 확인</b><span>작업 뒤 물을 흘려 배수 상태와 재역류 여부를 확인합니다.</span></li></ol></div>
-          <figure><img src="/images/sink-service.png" alt="하남 싱크대막힘 현장에서 하부 배관을 점검하는 과정" /><figcaption>싱크대 하부부터 연결 배관까지 순서대로 확인하는 작업 예시</figcaption></figure>
+          <figure><img src="/images/sink-service.webp" alt="하남 싱크대막힘 현장에서 하부 배관을 점검하는 과정" /><figcaption>싱크대 하부부터 연결 배관까지 순서대로 확인하는 작업 예시</figcaption></figure>
         </section>
 
         <section className="articleSection" id="district-guide">
