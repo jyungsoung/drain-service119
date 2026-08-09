@@ -1,5 +1,11 @@
 const services=[
-  ["24시간 상담","/images/service-consultation.webp"],["신속 출동","/images/service-dispatch.webp"],["배관 고압세척","/images/inspection-equipment.webp"],["배관 내시경","/images/plumber-worker.webp"],["싱크대 막힘","/images/sink-service.webp"],["변기 막힘","/images/service-toilet.webp"],["누수탐지","/images/service-leak-detection.webp"],
+  ["24시간 상담","/images/service-consultation.webp","/service-area"],
+  ["하수구 막힘","/images/service-dispatch.webp","/services/drain-clog"],
+  ["배관 고압세척","/images/inspection-equipment.webp","/services/high-pressure-cleaning"],
+  ["배관 내시경","/images/plumber-worker.webp","/services/pipe-camera"],
+  ["싱크대 막힘","/images/sink-service.webp","/services/sink-clog"],
+  ["변기 막힘","/images/service-toilet.webp","/services/toilet-clog"],
+  ["누수탐지","/images/service-leak-detection.webp","/services/leak-detection"],
 ];
 const causes=[
   ["유지방과 음식물 찌꺼기","기름과 작은 음식물이 배관 안에서 굳으면 통로가 좁아져 배수가 느려지고 다시 막힐 수 있습니다."],
@@ -13,7 +19,7 @@ const buildings=[
 
 export default function LocalLandingContent({label}:{label:string}){
   return <>
-    <section className="serviceShowcase section localFullService"><div className="servicePanel"><div className="serviceHeading"><p className="kicker">SERVICE GUIDE</p><h2>{label} 배관 서비스 안내</h2><p>응급배관119 대표번호 <b>1668-1321</b> · 막힘과 배관 점검 상담</p></div><div className="servicePhotoGrid">{services.map(([title,image])=><a className="servicePhotoCard" href="tel:16681321" key={title}><img src={image} alt={`${label} ${title} 서비스`}/><span><strong>{title}</strong><small>응급배관119</small><b>1668-1321</b></span></a>)}</div></div></section>
+    <section className="serviceShowcase section localFullService"><div className="servicePanel"><div className="serviceHeading"><p className="kicker">SERVICE GUIDE</p><h2>{label} 배관 서비스 안내</h2><p>응급배관119 대표번호 <b>1668-1321</b> · 막힘과 배관 점검 상담</p></div><div className="servicePhotoGrid">{services.map(([title,image,href])=><a className="servicePhotoCard" href={href} key={title} aria-label={`${title} 상세 안내`}><img src={image} alt={`${label} ${title} 서비스`}/><span><strong>{title}</strong><small>지역별 안내 보기</small><b>1668-1321</b></span></a>)}</div></div></section>
     <article className="seoArticle localSeoArticle">
       <nav className="articleToc"><b>{label} 배관 안내 목차</b><a href="#local-guide">막힘 점검</a><a href="#local-causes">반복 원인</a><a href="#local-equipment">장비 선택</a><a href="#local-building">건물별 차이</a><a href="#work-site">시공현장</a></nav>
       <section className="articleSection articleLead" id="local-guide"><p className="kicker">LOCAL DRAIN GUIDE</p><h2>{label} 싱크대막힘,<br/>증상과 배관 구조부터 확인합니다</h2><div className="articleColumns"><p>{label}에서 물이 평소보다 천천히 내려가거나 배수할 때 소리가 난다면 배관 통로가 좁아지고 있을 수 있습니다. 유지방과 음식물 찌꺼기가 계속 쌓이면 많은 물을 사용할 때 역류하거나 하부장에서 악취가 날 수 있습니다.</p><p>같은 증상이라도 원인은 트랩, 벽 안쪽 가지관, 세대 횡주관 또는 건물 공용관처럼 서로 다를 수 있습니다. 건물 형태와 이전 작업 여부를 확인하고 접근 가능한 구간부터 점검해 필요한 작업을 안내합니다.</p></div><aside className="articleNotice"><b>상담할 때 알려주세요</b><span>배수 속도 · 역류 시점 · 악취와 소리 · 이전 작업 여부 · 건물 형태</span></aside></section>

@@ -14,14 +14,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://drain-service119.netlify.app"),
   title: "하남 싱크대막힘 하수구막힘 고압세척 | 응급배관119",
   description: "하남 싱크대·하수구·변기 막힘, 배관 내시경·고압세척·누수탐지 상담. 응급배관119 1668-1321.",
   keywords: ["하남 싱크대막힘", "하남 하수구막힘", "하남 변기막힘", "하남 고압세척", "하남 배관청소", "하남 누수탐지", "응급배관119"],
   openGraph: {
     title: "하남 싱크대막힘 하수구막힘 | 응급배관119",
     description: "하남 전 지역 싱크대·하수구·변기 막힘, 배관 내시경과 고압세척 상담",
+    url: "/",
+    siteName: "응급배관119",
+    images: [{ url: "/images/plumber-worker.webp", alt: "응급배관119 배관 점검 서비스" }],
     type: "website",
     locale: "ko_KR",
+  },
+  alternates: { canonical: "/" },
+  twitter: {
+    card: "summary_large_image",
+    title: "하남 싱크대막힘 하수구막힘 | 응급배관119",
+    description: "하남 전 지역 배관막힘·고압세척·누수탐지 상담",
+    images: ["/images/plumber-worker.webp"],
   },
   other: {
     "codex-preview": "development",

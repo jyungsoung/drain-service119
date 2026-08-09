@@ -1,14 +1,15 @@
 import HanamMap from "./HanamMap";
 import { hanamDongs } from "./hanam/dong-data";
+import { regionHubs } from "./services/service-data";
 
 const services = [
-  { title: "24시간 상담", image: "/images/service-consultation.webp", alt: "응급배관119 전화 상담 담당자" },
-  { title: "신속 출동", image: "/images/service-dispatch.webp", alt: "장비를 들고 출동하는 배관 작업자" },
-  { title: "배관 고압세척", image: "/images/inspection-equipment.webp", alt: "배관 고압세척 전문 장비" },
-  { title: "배관 내시경", image: "/images/plumber-worker.webp", alt: "배관 내시경으로 내부를 점검하는 작업자" },
-  { title: "싱크대 막힘", image: "/images/sink-service.webp", alt: "싱크대 하부 배관을 점검하는 작업자" },
-  { title: "변기 막힘", image: "/images/service-toilet.webp", alt: "변기 막힘을 점검하는 배관 작업자" },
-  { title: "누수탐지", image: "/images/service-leak-detection.webp", alt: "전문 장비로 누수 지점을 탐지하는 작업자" },
+  { title: "24시간 상담", image: "/images/service-consultation.webp", alt: "응급배관119 전화 상담 담당자", href: "/service-area" },
+  { title: "하수구 막힘", image: "/images/service-dispatch.webp", alt: "하수구막힘 현장으로 장비를 들고 출동하는 작업자", href: "/services/drain-clog" },
+  { title: "배관 고압세척", image: "/images/inspection-equipment.webp", alt: "배관 고압세척 전문 장비", href: "/services/high-pressure-cleaning" },
+  { title: "배관 내시경", image: "/images/plumber-worker.webp", alt: "배관 내시경으로 내부를 점검하는 작업자", href: "/services/pipe-camera" },
+  { title: "싱크대 막힘", image: "/images/sink-service.webp", alt: "싱크대 하부 배관을 점검하는 작업자", href: "/services/sink-clog" },
+  { title: "변기 막힘", image: "/images/service-toilet.webp", alt: "변기 막힘을 점검하는 배관 작업자", href: "/services/toilet-clog" },
+  { title: "누수탐지", image: "/images/service-leak-detection.webp", alt: "전문 장비로 누수 지점을 탐지하는 작업자", href: "/services/leak-detection" },
 ];
 
 const steps = [
@@ -62,13 +63,24 @@ export default function Home() {
     "@type": "LocalBusiness",
     name: "응급배관119",
     telephone: "1668-1321",
-    areaServed: ["하남시", "미사동", "망월동", "풍산동", "덕풍동", "신장동", "감일동", "위례동"],
-    description: "하남 싱크대막힘, 하수구막힘, 변기막힘, 고압세척, 배관청소와 누수탐지 상담",
+    url: "https://drain-service119.netlify.app",
+    areaServed: regionHubs.map((region) => region.name),
+    description: "서울·경기·인천·강원·충청권 싱크대막힘, 하수구막힘, 변기막힘, 고압세척, 배관청소와 누수탐지 상담",
+  };
+  const navigationSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "응급배관119 주요 서비스와 전국 지역 안내",
+    itemListElement: [
+      ...services.slice(1).map((service, index) => ({ "@type": "ListItem", position: index + 1, name: service.title, url: `https://drain-service119.netlify.app${service.href}` })),
+      ...regionHubs.map((region, index) => ({ "@type": "ListItem", position: services.length + index, name: region.name, url: `https://drain-service119.netlify.app${region.href}` })),
+    ],
   };
   return (
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(navigationSchema) }} />
       <header className="topbar">
         <a className="brand" href="#top" aria-label="응급배관119 홈"><img className="brandSeal" src="/images/emergency-pipe-stamp.jpeg" alt="응급배관 도장 로고" /><span className="brandText"><span className="brandName">응급배관</span><span className="brandNumber">119</span></span></a>
         <nav aria-label="주요 메뉴"><a href="#service">서비스</a><a href="#process">작업절차</a><a href="/work-sites">시공현장</a><a href="/gyeonggi">경기도</a><a href="/service-area">서울·인천·강원·충청</a><a href="#faq">자주 묻는 질문</a></nav>
@@ -95,8 +107,14 @@ export default function Home() {
       <section className="serviceShowcase section" id="service">
         <div className="servicePanel">
           <div className="serviceHeading"><p className="kicker">SERVICE GUIDE</p><h2>하남시 배관 서비스 안내</h2><p>응급배관119 대표번호 <b>1668-1321</b> · 하수구막힘과 누수탐지 상담</p></div>
-          <div className="servicePhotoGrid">{services.map((s) => <a className="servicePhotoCard" href="tel:16681321" key={s.title} aria-label={`${s.title} 전화 상담`}><img src={s.image} alt={s.alt} /><span><strong>{s.title}</strong><small>응급배관119</small><b>1668-1321</b></span></a>)}</div>
+          <div className="servicePhotoGrid">{services.map((s) => <a className="servicePhotoCard" href={s.href} key={s.title} aria-label={`${s.title} 상세 안내`}><img src={s.image} alt={s.alt} /><span><strong>{s.title}</strong><small>지역별 안내 보기</small><b>1668-1321</b></span></a>)}</div>
         </div>
+      </section>
+
+      <section className="nationwideDirectory homeNationwide" id="nationwide-area">
+        <div className="regionTitle"><p className="kicker">NATIONWIDE AREA</p><h2>전국 지역별 배관 안내</h2><p>권역을 선택하면 시·군·구와 읍·면·동 페이지로 이동합니다. 각 지역 페이지는 해당 지역 지도와 인근 지역을 서로 연결합니다.</p></div>
+        <div className="nationwideGrid">{regionHubs.map((region) => <a href={region.href} key={region.href}><strong>{region.name}</strong><span>{region.detail}</span><b>지역 페이지 보기 →</b></a>)}</div>
+        <a className="allServiceLink" href="/services">배관 서비스 전체 안내 보기 →</a>
       </section>
 
       <section className="workSection" id="work">
