@@ -110,7 +110,7 @@ export default function LeakDetectionPage() {
 
     <section className="leakRegions" id="regions">
       <div className="leakSectionHeading"><p className="kicker light">SERVICE AREA</p><h2>누수탐지 상담 지역</h2><p>서울·경기·인천과 강원·충청권을 상담하며 실제 출동 가능 시간은 현재 위치와 현장 일정에 따라 안내합니다.</p></div>
-      <div className="leakRegionGrid">{regionHubs.map((region) => <div key={region.href}><strong>{region.name}</strong><span>{region.detail}</span><small>누수탐지 상담 가능 여부 확인</small></div>)}</div>
+      <div className="leakRegionGrid">{regionHubs.map((region) => <a href={region.leakHref} key={region.leakHref}><strong>{region.name}</strong><span>{region.detail}</span><small>지역별 누수탐지 페이지 보기 →</small></a>)}</div>
       <a className="leakRegionCall" href="tel:16681321">현재 지역 출동 상담하기 →</a>
     </section>
 

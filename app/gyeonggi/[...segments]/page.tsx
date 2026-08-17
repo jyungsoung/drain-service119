@@ -38,7 +38,8 @@ function localProfile(name: string) {
 }
 
 export default async function GyeonggiAreaPage({ params }: Props) {
-  const area = resolveArea((await params).segments);
+  const segments = (await params).segments;
+  const area = resolveArea(segments);
   if (!area) notFound();
   const label = areaLabel(area);
   const cityUnits = unitsForCity(area.city);
@@ -57,7 +58,7 @@ export default async function GyeonggiAreaPage({ params }: Props) {
     <nav className="regionBreadcrumb" aria-label="현재 위치"><a href="/gyeonggi">경기도</a><span>›</span><a href={`/gyeonggi/${area.city.slug}`}>{area.city.name}</a>{area.unit?.gu && <><span>›</span><a href={unitPath(area.unit)}>{area.unit.gu}</a></>}{area.local && <><span>›</span><b>{area.local.name}</b></>}</nav>
     <section className="regionHero"><div><p className="eyebrow"><span /> 경기도 {label} 배관 상담</p><h1>{label} 싱크대막힘·변기막힘,<br /><em>원인부터 정확하게 확인합니다</em></h1><p>{profile} 물이 느리게 내려가는지, 한꺼번에 사용할 때 역류하는지, 악취나 소리가 함께 나타나는지를 알려주시면 점검 방향을 안내합니다.</p><div className="heroActions"><a className="primary" href="tel:16681321">{label} 전화 상담 <b>1668-1321</b></a><a className="secondary" href="#symptoms">증상별 점검 보기 ↓</a></div><div className="trust"><span>✓ 작업 전 설명</span><span>✓ 현장 맞춤 장비</span><span>✓ 경기도 지역 상담</span></div></div><figure><img src="/images/plumber-worker.webp" alt={`${label} 배관막힘 현장에서 내시경으로 확인하는 작업자`} /><figcaption><small>{label} 배관 점검</small><strong>보이는 증상보다<br />배관 속 원인을 확인합니다.</strong></figcaption></figure></section>
     <section className="dongQuick" id="service"><b>{label} 주요 상담</b><a href="/services/sink-clog">싱크대막힘</a><a href="/services/toilet-clog">변기막힘</a><a href="/services/drain-clog">하수구막힘</a><a href="/services/pipe-camera">배관 내시경</a><a href="/services/high-pressure-cleaning">고압세척</a></section>
-    {area.local&&<LocalLandingContent label={label}/>} 
+    {area.local&&<LocalLandingContent label={label} leakHref={`/leak-detection/gyeonggi/${segments.join("/")}`}/>}
     <section className="dongSection" id="symptoms"><div className="dongSectionTitle"><p className="kicker">SYMPTOM CHECK</p><h2>{label} 배관막힘,<br />증상부터 구분합니다</h2><p>같은 막힘이라도 트랩, 세대 가지관, 건물 공용관 또는 외부 오수관 중 원인 구간이 다를 수 있습니다. 이전 작업 여부와 여러 배수구에서 동시에 증상이 나타나는지도 확인합니다.</p></div><div className="dongCheckGrid">{symptoms.map(([title,text],i)=><article key={title}><b>0{i+1}</b><h3>{title}</h3><p>{text}</p></article>)}</div></section>
     <section className="dongEquipment" id="work-site"><figure><img src="/images/inspection-equipment.webp" alt={`${label} 하수구막힘 점검용 배관 내시경과 고압세척 장비`} /></figure><div><p className="kicker light">WORK SITE</p><h2>시공 현장에서 확인하고<br />맞는 장비를 선택합니다</h2><p>짧은 구간의 이물질은 트랩 점검이나 스프링 작업을 검토하고, 배관 내부 확인이 필요할 때는 내시경을 사용합니다. 긴 배관에 유지방과 슬러지가 넓게 쌓였거나 반복 막힘이 있다면 배관 재질과 접근 위치를 확인한 뒤 고압세척 범위를 안내합니다.</p><a href="/work-sites">시공현장 업데이트 보기 →</a></div></section>
     <section className="regionMapSection"><div className="regionMapCopy"><p className="kicker">LOCAL MAP</p><h2>{label}<br />지역 위치 안내</h2><p>{label} 행정구역의 중심 위치를 무료 지도로 표시합니다. 핀을 누르면 배관 상담 전화로 바로 연결할 수 있습니다.</p><a className="primary compact" href="tel:16681321">{label} 출동 문의하기</a></div><RegionMap label={label} center={mapCenter} zoom={mapZoom} /></section>

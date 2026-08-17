@@ -85,12 +85,12 @@ export const drainServiceLandings = serviceLandings.filter((service) => service.
 export const leakDetectionService = serviceLandings.find((service) => service.slug === "leak-detection")!;
 
 export const regionHubs = [
-  { name: "경기도", href: "/gyeonggi", detail: "31개 시·군 지역 안내" },
-  { name: "서울특별시", href: "/service-area/seoul", detail: "25개 자치구 지역 안내" },
-  { name: "인천광역시", href: "/service-area/incheon", detail: "군·구·동 지역 안내" },
-  { name: "강원특별자치도", href: "/service-area/gangwon", detail: "시·군·읍면동 지역 안내" },
-  { name: "충청북도", href: "/service-area/chungbuk", detail: "시·군·읍면동 지역 안내" },
-  { name: "충청남도", href: "/service-area/chungnam", detail: "시·군·읍면동 지역 안내" },
-  { name: "대전광역시", href: "/service-area/daejeon", detail: "자치구·동 지역 안내" },
-  { name: "세종특별자치시", href: "/service-area/sejong", detail: "읍면동 지역 안내" },
+  { name: "경기도", href: "/gyeonggi", leakHref: "/leak-detection/gyeonggi", detail: "31개 시·군 지역 안내" },
+  { name: "서울특별시", href: "/service-area/seoul", leakHref: "/leak-detection/seoul", detail: "25개 자치구 지역 안내" },
+  { name: "인천광역시", href: "/service-area/incheon", leakHref: "/leak-detection/incheon", detail: "군·구·동 지역 안내" },
+  { name: "강원특별자치도", href: "/service-area/gangwon", leakHref: "/leak-detection/gangwon", detail: "시·군·읍면동 지역 안내" },
+  { name: "충청북도", href: "/service-area/chungbuk", leakHref: "/leak-detection/chungbuk", detail: "시·군·읍면동 지역 안내" },
+  { name: "충청남도", href: "/service-area/chungnam", leakHref: "/leak-detection/chungnam", detail: "시·군·읍면동 지역 안내" },
+  { name: "대전광역시", href: "/service-area/daejeon", leakHref: "/leak-detection/daejeon", detail: "자치구·동 지역 안내" },
+  { name: "세종특별자치시", href: "/service-area/sejong", leakHref: "/leak-detection/sejong", detail: "읍면동 지역 안내" },
 ];

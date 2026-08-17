@@ -39,7 +39,9 @@ export default async function DongDrainPage({ params }: PageProps) {
   if (!area) notFound();
   const neighbors = area.nearby.map(getDong).filter(Boolean);
   const hanamUnit = units.find((unit) => unit.city === "하남시");
-  const mapCenter: [number, number] = hanamUnit?.locals.find((local) => local.name === area.name)?.center || hanamUnit?.center || [37.5393, 127.2148];
+  const leakLocal = hanamUnit?.locals.find((local) => local.name === area.name);
+  const mapCenter: [number, number] = leakLocal?.center || hanamUnit?.center || [37.5393, 127.2148];
+  const leakHref = leakLocal ? `/leak-detection/gyeonggi/hanam/d-${leakLocal.code}` : "/leak-detection/gyeonggi/hanam";
   const schema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -71,7 +73,7 @@ export default async function DongDrainPage({ params }: PageProps) {
 
       <section className="dongQuick" id="service"><b>{area.name} 주요 상담</b><span>싱크대막힘</span><span>변기막힘</span><span>하수구막힘</span><span>배관 내시경</span><span>고압세척</span></section>
 
-      <LocalLandingContent label={`하남시 ${area.name}`} />
+      <LocalLandingContent label={`하남시 ${area.name}`} leakHref={leakHref} />
 
       <section className="dongSection" id="symptom">
         <div className="dongSectionTitle"><p className="kicker">SYMPTOM CHECK</p><h2>{area.name} 배관막힘,<br />증상부터 구분합니다</h2><p>{area.buildingFocus}처럼 건물 형태가 다양하면 같은 막힘 증상도 원인 구간이 다를 수 있습니다. 전화 상담에서 배수 속도, 역류 범위, 악취와 소리, 이전 작업 여부를 알려주세요.</p></div>
