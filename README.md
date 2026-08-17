@@ -7,5 +7,7 @@
 - Build command: `npm run build`
 - Publish directory: `.next`
 - Target URL: `https://drain-service119.netlify.app`
+- 전국 대표 페이지: `/`
+- 하남 대표 페이지: `/hanam`
 
 시공현장은 `app/work-sites/cases-data.ts`에 한 항목씩 추가합니다.
