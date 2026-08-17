@@ -5,12 +5,12 @@ import { regionHubs } from "../services/service-data";
 
 export const metadata: Metadata = {
   title: "하남 싱크대막힘 하수구막힘 고압세척 | 응급배관119",
-  description: "하남 싱크대·하수구·변기 막힘, 배관 내시경·고압세척·누수탐지 상담. 응급배관119 1668-1321.",
-  keywords: ["하남 싱크대막힘", "하남 하수구막힘", "하남 변기막힘", "하남 고압세척", "하남 누수탐지"],
+  description: "하남 싱크대·하수구·변기 막힘, 배관 내시경·고압세척 상담. 누수탐지는 별도 전용페이지 운영. 응급배관119 1668-1321.",
+  keywords: ["하남 싱크대막힘", "하남 하수구막힘", "하남 변기막힘", "하남 고압세척"],
   alternates: { canonical: "/hanam" },
   openGraph: {
     title: "하남 싱크대막힘 하수구막힘 | 응급배관119",
-    description: "하남 전 지역 배관막힘·고압세척·누수탐지 상담",
+    description: "하남 전 지역 배관막힘·배관 내시경·고압세척 상담",
     url: "/hanam",
     images: [{ url: "/images/plumber-worker.webp", alt: "하남 배관막힘 현장 점검" }],
   },
@@ -23,7 +23,6 @@ const services = [
   { title: "배관 내시경", image: "/images/plumber-worker.webp", alt: "배관 내시경으로 내부를 점검하는 작업자", href: "/services/pipe-camera" },
   { title: "싱크대 막힘", image: "/images/sink-service.webp", alt: "싱크대 하부 배관을 점검하는 작업자", href: "/services/sink-clog" },
   { title: "변기 막힘", image: "/images/service-toilet.webp", alt: "변기 막힘을 점검하는 배관 작업자", href: "/services/toilet-clog" },
-  { title: "누수탐지", image: "/images/service-leak-detection.webp", alt: "전문 장비로 누수 지점을 탐지하는 작업자", href: "/services/leak-detection" },
 ];
 
 const steps = [
@@ -102,7 +101,7 @@ export default function HanamHome() {
       { "@type": "ContactPoint", telephone: "+82-10-5776-5882", contactType: "text message consultation", availableLanguage: "Korean" },
     ],
     sameAs: ["https://drain119.co.kr/"],
-    description: "하남시 싱크대막힘, 하수구막힘, 변기막힘, 배관 내시경·고압세척과 누수탐지 상담",
+    description: "하남시 싱크대막힘, 하수구막힘, 변기막힘, 배관 내시경·고압세척 상담",
   };
   const websiteSchema = {
     "@context": "https://schema.org",
@@ -120,7 +119,8 @@ export default function HanamHome() {
     name: "응급배관119 주요 서비스와 전국 지역 안내",
     itemListElement: [
       ...services.slice(1).map((service, index) => ({ "@type": "ListItem", position: index + 1, name: service.title, url: `https://drain-service119.netlify.app${service.href}` })),
-      ...regionHubs.map((region, index) => ({ "@type": "ListItem", position: services.length + index, name: region.name, url: `https://drain-service119.netlify.app${region.href}` })),
+      { "@type": "ListItem", position: services.length, name: "누수탐지 전용 안내", url: "https://drain-service119.netlify.app/leak-detection" },
+      ...regionHubs.map((region, index) => ({ "@type": "ListItem", position: services.length + index + 1, name: region.name, url: `https://drain-service119.netlify.app${region.href}` })),
     ],
   };
   return (
@@ -131,7 +131,7 @@ export default function HanamHome() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(navigationSchema) }} />
       <header className="topbar">
         <a className="brand" href="#top" aria-label="응급배관119 홈"><img className="brandSeal" src="/images/emergency-pipe-stamp.jpeg" alt="응급배관119 로고" width="276" height="276" /><span className="brandText"><span className="brandName">응급배관</span><span className="brandNumber">119</span></span></a>
-        <nav aria-label="주요 메뉴"><a href="#service">서비스</a><a href="#process">작업절차</a><a href="#area">하남 출동지역</a><a href="#hanam-guide">증상별 안내</a><a href="#nationwide-area">전국지역</a><a href="#faq">자주 묻는 질문</a></nav>
+        <nav aria-label="주요 메뉴"><a href="#service">배관막힘</a><a href="/leak-detection">누수탐지</a><a href="#process">작업절차</a><a href="#area">하남 출동지역</a><a href="#hanam-guide">증상별 안내</a><a href="#faq">자주 묻는 질문</a></nav>
         <a className="headerCall" href="tel:16681321">1668-1321</a>
       </header>
 
@@ -160,8 +160,9 @@ export default function HanamHome() {
 
       <section className="serviceShowcase section" id="service">
         <div className="servicePanel">
-          <div className="serviceHeading"><p className="kicker">SERVICE GUIDE</p><h2>하남시 배관 서비스 안내</h2><p>응급배관119 대표번호 <b>1668-1321</b> · 하수구막힘과 누수탐지 상담</p></div>
-          <div className="servicePhotoGrid">{services.map((s) => <a className="servicePhotoCard" href={s.href} key={s.title} aria-label={`${s.title} 상세 안내`}><img src={s.image} alt={s.alt} width="724" height="543" loading="lazy" decoding="async" /><span><strong>{s.title}</strong><small>지역별 안내 보기</small><b>1668-1321</b></span></a>)}</div>
+          <div className="serviceHeading"><p className="kicker">DRAIN SERVICE GUIDE</p><h2>하남시 배관막힘 서비스 안내</h2><p>응급배관119 대표번호 <b>1668-1321</b> · 하수구막힘과 고압세척 상담</p></div>
+          <div className="servicePhotoGrid drainServicePhotoGrid">{services.map((s) => <a className="servicePhotoCard" href={s.href} key={s.title} aria-label={`${s.title} 상세 안내`}><img src={s.image} alt={s.alt} width="724" height="543" loading="lazy" decoding="async" /><span><strong>{s.title}</strong><small>지역별 안내 보기</small><b>1668-1321</b></span></a>)}</div>
+          <a className="inlineLeakGuide" href="/leak-detection"><span>하남 누수 증상은 별도로 확인하세요</span><b>누수탐지 전용페이지 보기 →</b></a>
         </div>
       </section>
 
@@ -239,10 +240,10 @@ export default function HanamHome() {
         </section>
 
         <section className="articleSection" id="district-guide">
-          <div className="articleTitle"><p className="kicker">LOCAL AREA</p><h2>하남시 주요 동별<br />배관 출동 상담</h2><p>하남시 전 지역의 싱크대막힘, 하수구막힘, 변기막힘, 고압세척과 누수탐지를 상담합니다. 실제 출동 가능 시간은 현장 일정과 위치에 따라 안내합니다.</p></div>
+          <div className="articleTitle"><p className="kicker">LOCAL AREA</p><h2>하남시 주요 동별<br />배관 출동 상담</h2><p>하남시 전 지역의 싱크대막힘, 하수구막힘, 변기막힘과 고압세척을 상담합니다. 실제 출동 가능 시간은 현장 일정과 위치에 따라 안내합니다.</p></div>
           <div className="localAreaGrid">{localAreas.map(([area, text]) => <section key={area}><h3>{area}</h3><p>{text}</p><a href="tel:16681321" aria-label={`${area} 배관 출동 전화 상담`}>출동 상담 1668-1321 →</a></section>)}</div>
           <div className="dongLinkPanel"><b>하남시 동별 상세 안내</b><div>{hanamDongs.map((dong) => <a key={dong.slug} href={`/hanam/${dong.slug}`}>{dong.name} 배관막힘</a>)}</div></div>
-          <p className="keywordLine">하남 싱크대막힘 · 하남 하수구막힘 · 하남 변기막힘 · 하남 고압세척 · 하남 배관청소 · 하남 누수탐지</p>
+          <p className="keywordLine">하남 싱크대막힘 · 하남 하수구막힘 · 하남 변기막힘 · 하남 고압세척 · 하남 배관청소</p>
         </section>
       </article>
 
@@ -260,7 +261,7 @@ export default function HanamHome() {
           <img src="/images/emergency-pipe-footer-v2.jpeg" alt="응급배관119 로고" width="276" height="276" loading="lazy" decoding="async" />
           <div><span>응급배관</span><b>119</b></div>
         </div>
-        <p className="footerServicesV2">하수구 · 변기 · 싱크대 · 세면대 막힘 / 고압세척 · 배관청소 / 누수탐지</p>
+        <p className="footerServicesV2">하수구 · 변기 · 싱크대 · 세면대 막힘 / 고압세척 · 배관청소 · <a href="/leak-detection">누수탐지 전용페이지 →</a></p>
         <p className="footerLegalV2"><span>사업자등록번호 732-67-00677 · 경기도 하남시 하남대로801번길 58 4층</span><span>상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 응급배관119</span></p>
       </footer>
       <div className="mobileContactBar" aria-label="빠른 상담"><a href="sms:01057765882"><span>사진·증상</span><b>문자상담</b></a><a href="tel:16681321"><span>365일 접수</span><b>1668-1321</b></a></div>

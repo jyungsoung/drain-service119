@@ -81,6 +81,9 @@ export const serviceLandings: ServiceLanding[] = [
 
 export const serviceBySlug = (slug: string) => serviceLandings.find((service) => service.slug === slug);
 
+export const drainServiceLandings = serviceLandings.filter((service) => service.slug !== "leak-detection");
+export const leakDetectionService = serviceLandings.find((service) => service.slug === "leak-detection")!;
+
 export const regionHubs = [
   { name: "경기도", href: "/gyeonggi", detail: "31개 시·군 지역 안내" },
   { name: "서울특별시", href: "/service-area/seoul", detail: "25개 자치구 지역 안내" },

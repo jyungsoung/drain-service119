@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { regionHubs, serviceBySlug, serviceLandings } from "../service-data";
+import { drainServiceLandings, regionHubs, serviceBySlug } from "../service-data";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return serviceLandings.map((service) => ({ slug: service.slug }));
+  return drainServiceLandings.map((service) => ({ slug: service.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -57,7 +57,7 @@ export default async function ServicePage({ params }: Props) {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
     <header className="topbar">
       <a className="brand" href="/"><img className="brandSeal" src="/images/emergency-pipe-stamp.jpeg" alt="응급배관119 로고" /><span className="brandText"><span className="brandName">응급배관</span><span className="brandNumber">119</span></span></a>
-      <nav aria-label="주요 메뉴"><a href="/services">전체 서비스</a><a href="#symptoms">주요 증상</a><a href="#regions">전국 지역</a><a href="/work-sites">시공현장</a></nav>
+      <nav aria-label="주요 메뉴"><a href="/services">배관막힘 서비스</a><a href="#symptoms">주요 증상</a><a href="#regions">전국 지역</a><a href="/leak-detection">누수탐지</a><a href="/work-sites">시공현장</a></nav>
       <a className="headerCall" href="tel:16681321">1668-1321</a>
     </header>
     <nav className="regionBreadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><a href="/services">배관 서비스</a><span>›</span><b>{service.title}</b></nav>
@@ -74,9 +74,9 @@ export default async function ServicePage({ params }: Props) {
       <div className="regionTitle"><p className="kicker">LOCAL SERVICE PAGES</p><h2>지역별 {service.title} 안내</h2><p>권역을 선택한 뒤 시·군·구와 읍·면·동 페이지로 이동하면 지역 지도와 인근 지역 연결을 확인할 수 있습니다.</p></div>
       <div className="nationwideGrid">{regionHubs.map((region) => <a href={region.href} key={region.href}><strong>{region.name} {service.title}</strong><span>{region.detail}</span><b>지역 페이지 보기 →</b></a>)}</div>
     </section>
-    <section className="relatedServices"><div className="regionTitle"><p className="kicker">RELATED SERVICE</p><h2>다른 배관 서비스</h2></div><div>{serviceLandings.filter((item) => item.slug !== service.slug).map((item) => <a href={`/services/${item.slug}`} key={item.slug}><img src={item.image} alt={item.alt} /><span>{item.cardTitle}</span></a>)}</div></section>
+    <section className="relatedServices"><div className="regionTitle"><p className="kicker">RELATED SERVICE</p><h2>다른 배관막힘 서비스</h2><p><a className="separateLeakLink" href="/leak-detection">누수 증상은 누수탐지 전용페이지에서 확인하세요 →</a></p></div><div>{drainServiceLandings.filter((item) => item.slug !== service.slug).map((item) => <a href={`/services/${item.slug}`} key={item.slug}><img src={item.image} alt={item.alt} /><span>{item.cardTitle}</span></a>)}</div></section>
     <section className="finalCta"><p>{service.title} 지역 상담</p><h2>현재 위치와 나타나는 증상을 알려주세요.</h2><a href="tel:16681321"><span>365일 상담전화</span>1668-1321</a></section>
-    <footer className="siteFooterV2"><div className="footerBrandV2"><img src="/images/emergency-pipe-stamp.jpeg" alt="응급배관119 로고" /><div><span>응급배관</span><b>119</b></div></div><p className="footerServicesV2">싱크대 · 변기 · 하수구 막힘 / 고압세척 · 배관 내시경 / 누수탐지</p><p className="footerLegalV2">상담 가능 시간과 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 응급배관119</p></footer>
+    <footer className="siteFooterV2"><div className="footerBrandV2"><img src="/images/emergency-pipe-stamp.jpeg" alt="응급배관119 로고" /><div><span>응급배관</span><b>119</b></div></div><p className="footerServicesV2">싱크대 · 변기 · 하수구 막힘 / 고압세척 · 배관 내시경</p><p className="footerLegalV2">상담 가능 시간과 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 응급배관119</p></footer>
     <a className="floatingCall" href="tel:16681321" aria-label={`${service.title} 전화 상담`}>☎<b>전화상담</b></a>
   </main>;
 }

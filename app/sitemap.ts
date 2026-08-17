@@ -3,7 +3,7 @@ import { hanamDongs } from "./hanam/dong-data";
 import { allStaticSegments } from "./gyeonggi/area-data";
 import { allSegments as allServiceAreaSegments } from "./service-area/area-data";
 import { workCases } from "./work-sites/cases-data";
-import { serviceLandings } from "./services/service-data";
+import { drainServiceLandings } from "./services/service-data";
 
 const baseUrl = "https://drain-service119.netlify.app";
 
@@ -24,7 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     { url: `${baseUrl}/service-area`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/services`, changeFrequency: "weekly", priority: 0.9 },
-    ...serviceLandings.map((service) => ({
+    { url: `${baseUrl}/leak-detection`, changeFrequency: "weekly", priority: 0.95, images: [`${baseUrl}/images/service-leak-detection.webp`] },
+    ...drainServiceLandings.map((service) => ({
       url: `${baseUrl}/services/${service.slug}`,
       changeFrequency: "monthly" as const,
       priority: 0.85,

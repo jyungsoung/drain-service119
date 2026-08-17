@@ -54,7 +54,7 @@ export default function HanamMap() {
         });
         L.marker([lat, lng], { icon, title: `${name} 출동지역` })
           .addTo(map!)
-          .bindPopup(`<div class="mapPopup"><strong>${name} 배관 출동 상담</strong><span>싱크대·하수구·변기 막힘 / 누수탐지</span><a href="tel:16681321">1668-1321 전화하기</a></div>`);
+          .bindPopup(`<div class="mapPopup"><strong>${name} 배관 출동 상담</strong><span>싱크대·하수구·변기 막힘 / 고압세척</span><a href="tel:16681321">1668-1321 전화하기</a></div>`);
       });
 
       map.fitBounds(bounds, { padding: [34, 34], maxZoom: 13 });
