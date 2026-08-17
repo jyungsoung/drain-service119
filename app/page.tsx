@@ -114,6 +114,36 @@ export default function Home() {
         <div><b>{regionHubs.length}</b><span>서비스 권역</span></div><div><b>7</b><span>핵심 배관 서비스</span></div><div><b>1668-1321</b><span>대표 상담번호</span></div><a href="#regions"><b>지역 선택</b><span>시·군·구·동 안내 보기 →</span></a>
       </section>
 
+      <section className="equipmentStatement" aria-labelledby="equipment-statement-title">
+        <img src="/images/inspection-equipment.webp" alt="배관 내시경과 고압세척 장비를 준비한 현장" width="1536" height="1024" loading="eager" decoding="async" />
+        <div className="equipmentStatementInner">
+          <p className="equipmentKicker">EQUIPMENT &amp; DIAGNOSIS</p>
+          <h2 id="equipment-statement-title">막힘은 같아 보여도<br /><em>필요한 장비는 다릅니다</em></h2>
+          <p className="equipmentLead">배수구 입구의 이물질부터 긴 배관 안쪽의 유지방과 슬러지까지 원인 구간은 서로 다릅니다. 증상과 배관 구조를 확인한 뒤 필요한 점검과 작업 범위를 안내합니다.</p>
+          <div className="equipmentProof">
+            <span><b>01</b><strong>배관 내시경</strong><small>내부 상태와 막힘 구간 확인</small></span>
+            <span><b>02</b><strong>고압세척</strong><small>배관 오염 범위에 맞춰 검토</small></span>
+            <span><b>03</b><strong>작업 전 안내</strong><small>장비·범위·비용을 먼저 설명</small></span>
+          </div>
+          <div className="equipmentActions"><a href="tel:16681321">전화로 증상 상담 <b>1668-1321</b></a><a href="sms:01057765882">사진·증상 문자 보내기 →</a></div>
+        </div>
+      </section>
+
+      <section className="diagnosisEditorial" aria-labelledby="diagnosis-editorial-title">
+        <div className="diagnosisEditorialCopy">
+          <p className="kicker">FIELD-BASED SERVICE</p>
+          <h2 id="diagnosis-editorial-title">보이는 증상보다<br />배관 속 원인을 확인합니다</h2>
+          <p>물이 천천히 내려가거나 악취와 꿀렁거리는 소리가 반복되면 막힌 위치를 구분하는 과정이 먼저입니다. 싱크대·변기·하수구와 누수 의심 구간을 현장 상황에 맞춰 확인합니다.</p>
+          <ul><li>건물 형태와 배관 접근 위치 확인</li><li>증상에 맞는 진단·세척 장비 선택</li><li>작업 완료 후 배수와 재역류 여부 점검</li></ul>
+          <a href="#services">서비스별 안내 확인하기 →</a>
+        </div>
+        <div className="diagnosisEditorialGallery">
+          <figure className="diagnosisGalleryLarge"><img src="/images/sink-service.webp" alt="싱크대 하부 배관을 점검하는 현장" width="1536" height="1024" loading="lazy" decoding="async" /><figcaption><b>싱크대·하수구 막힘</b><span>트랩부터 연결 배관까지 순서대로 확인</span></figcaption></figure>
+          <figure><img src="/images/service-toilet.webp" alt="변기 막힘을 점검하는 작업자" width="1448" height="1086" loading="lazy" decoding="async" /><figcaption><b>변기 막힘</b><span>배수 상태와 막힘 구간 점검</span></figcaption></figure>
+          <figure><img src="/images/service-leak-detection.webp" alt="장비를 사용해 누수 의심 구간을 확인하는 작업자" width="1448" height="1086" loading="lazy" decoding="async" /><figcaption><b>누수탐지</b><span>의심 지점을 장비로 좁혀 확인</span></figcaption></figure>
+        </div>
+      </section>
+
       <section className="serviceShowcase section nationalServices" id="services">
         <div className="servicePanel">
           <div className="serviceHeading"><p className="kicker">SERVICE GUIDE</p><h2>응급배관119 서비스 안내</h2><p>증상을 선택하면 서비스별 점검 내용과 지역 안내를 확인할 수 있습니다.</p></div>
