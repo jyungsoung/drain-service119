@@ -12,5 +12,6 @@
 - 메인 디자인: 현장 사진 중심 에디토리얼 구성
 - 배관막힘 서비스: `/services`
 - 누수탐지 전용 페이지: `/leak-detection`
+- 누수탐지 지역 페이지: `/leak-detection/{지역경로}` 1,550개
 
 시공현장은 `app/work-sites/cases-data.ts`에 한 항목씩 추가합니다.
