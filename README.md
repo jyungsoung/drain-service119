@@ -9,5 +9,6 @@
 - Target URL: `https://drain-service119.netlify.app`
 - 전국 대표 페이지: `/`
 - 하남 대표 페이지: `/hanam`
+- 메인 디자인: 현장 사진 중심 에디토리얼 구성
 
 시공현장은 `app/work-sites/cases-data.ts`에 한 항목씩 추가합니다.
