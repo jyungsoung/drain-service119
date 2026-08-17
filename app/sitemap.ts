@@ -10,6 +10,7 @@ const baseUrl = "https://drain-service119.netlify.app";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: baseUrl, changeFrequency: "weekly", priority: 1 },
+    { url: `${baseUrl}/hanam`, changeFrequency: "weekly", priority: 0.95 },
     ...hanamDongs.map((dong) => ({
       url: `${baseUrl}/hanam/${dong.slug}`,
       changeFrequency: "monthly" as const,

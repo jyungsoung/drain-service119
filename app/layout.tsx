@@ -15,12 +15,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://drain-service119.netlify.app"),
-  title: "하남 싱크대막힘 하수구막힘 고압세척 | 응급배관119",
-  description: "하남 싱크대·하수구·변기 막힘, 배관 내시경·고압세척·누수탐지 상담. 응급배관119 1668-1321.",
-  keywords: ["하남 싱크대막힘", "하남 하수구막힘", "하남 변기막힘", "하남 고압세척", "하남 배관청소", "하남 누수탐지", "응급배관119"],
+  title: "지역별 배관막힘·누수탐지 | 응급배관119",
+  description: "서울·경기·인천·강원·충청권 하수구·싱크대·변기 막힘, 배관 내시경·고압세척·누수탐지 지역별 안내. 응급배관119 1668-1321.",
+  keywords: ["응급배관119", "하수구막힘", "싱크대막힘", "변기막힘", "배관 고압세척", "배관 내시경", "누수탐지", "지역별 배관 서비스"],
   openGraph: {
-    title: "하남 싱크대막힘 하수구막힘 | 응급배관119",
-    description: "하남 전 지역 싱크대·하수구·변기 막힘, 배관 내시경과 고압세척 상담",
+    title: "지역별 배관막힘·누수탐지 | 응급배관119",
+    description: "서울·경기·인천·강원·충청권 배관막힘·고압세척·누수탐지 지역 안내",
     url: "/",
     siteName: "응급배관119",
     images: [
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   twitter: {
     card: "summary_large_image",
-    title: "하남 싱크대막힘 하수구막힘 | 응급배관119",
-    description: "하남 전 지역 배관막힘·고압세척·누수탐지 상담",
-    images: ["/images/plumber-worker.webp"],
+    title: "지역별 배관막힘·누수탐지 | 응급배관119",
+    description: "지역과 증상에 맞는 배관 서비스 안내",
+    images: ["/images/service-dispatch.webp"],
   },
   other: {
     "codex-preview": "development",
