@@ -1,5 +1,6 @@
 import {
   allStaticSegments as allGyeonggiSegments,
+  cities as gyeonggiCities,
   localPath as gyeonggiLocalPath,
   resolveArea,
   unitPath as gyeonggiUnitPath,
@@ -36,12 +37,34 @@ const toServiceLeakPath = (path: string) => path.replace(/^\/service-area/, "/le
 
 export function allLeakRegionSegments() {
   return [
+    ["gyeonggi"],
     ...allGyeonggiSegments().map((segments) => ["gyeonggi", ...segments]),
     ...allServiceAreaSegments(),
   ];
 }
 
 function resolveGyeonggiLeak(segments: string[]): LeakRegionData | null {
+  if (segments.length === 1) {
+    return {
+      label: "경기도",
+      fullName: "경기도",
+      level: "province",
+      canonical: "/leak-detection/gyeonggi",
+      drainHref: "/gyeonggi",
+      center: [37.4138, 127.5183],
+      zoom: 9,
+      breadcrumbs: [
+        { name: "누수탐지", href: "/leak-detection" },
+        { name: "경기도", href: "/leak-detection/gyeonggi" },
+      ],
+      directoryTitle: "경기도 시·군별 누수탐지 지역",
+      directory: gyeonggiCities.map((city) => ({
+        name: city.name,
+        href: `/leak-detection/gyeonggi/${city.slug}`,
+        detail: "시·군 누수탐지 안내",
+      })),
+    };
+  }
   const areaSegments = segments.slice(1);
   const area = resolveArea(areaSegments);
   if (!area) return null;
