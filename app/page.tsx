@@ -98,11 +98,11 @@ export default function Home() {
       <section className="hero nationalHero" id="top">
         <div className="heroGlow" />
         <div className="heroContent">
-          <p className="eyebrow"><span /> 지역별 배관 서비스 통합 안내</p>
-          <h1>막힘부터 누수까지,<br /><em>지역과 증상에 맞춰 안내합니다</em></h1>
-          <p className="heroCopy">서울·경기·인천·강원·충청권의 하수구막힘, 싱크대막힘, 변기막힘, 고압세척과 누수탐지를 지역별로 확인하세요.</p>
+          <p className="eyebrow"><span /> 서울·경기·인천·강원·충청 배관 서비스</p>
+          <h1>하수구막힘부터 누수탐지까지,<br /><em>현장에 맞춰 정확하게 점검합니다</em></h1>
+          <p className="heroCopy">싱크대·변기·하수구 막힘, 배관 내시경·고압세척, 누수탐지를 지역별로 상담합니다.</p>
           <div className="heroActions"><a className="primary" href="tel:16681321">전화 상담 <b>1668-1321</b></a><a className="secondary messageButton" href="sms:01057765882">사진·증상 문자상담</a></div>
-          <div className="trust"><span>✓ 지역별 상세 안내</span><span>✓ 작업 전 범위 설명</span><span>✓ 현장 맞춤 장비</span></div>
+          <div className="trust"><span>✓ 증상별 현장 점검</span><span>✓ 작업 전 범위·비용 안내</span><span>✓ 배관 상태에 맞는 장비</span></div>
         </div>
         <div className="heroVisual photoHero nationalHeroPhoto">
           <img src="/images/service-dispatch.webp" alt="배관 장비를 준비해 현장으로 출동하는 응급배관119 작업자" width="724" height="543" fetchPriority="high" />
