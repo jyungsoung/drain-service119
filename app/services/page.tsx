@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { drainServiceLandings, leakDetectionService, regionHubs } from "./service-data";
 
 export const metadata: Metadata = {
-  title: "배관막힘·고압세척 서비스 안내 | 응급배관119",
+  title: "배관막힘·고압세척 서비스 안내 | 우리동네전문가",
   description: "싱크대막힘, 변기막힘, 하수구막힘, 배관 내시경과 고압세척 서비스 및 전국 지역별 상담 페이지 안내.",
   alternates: { canonical: "/services" },
   openGraph: {
-    title: "배관막힘·고압세척 서비스 | 응급배관119",
+    title: "배관막힘·고압세척 서비스 | 우리동네전문가",
     description: "막힘 증상에 맞는 배관 서비스와 전국 지역 안내 페이지를 확인하세요.",
     images: ["/images/inspection-equipment.webp"],
     type: "website",
@@ -18,22 +18,22 @@ export default function ServicesIndex() {
   const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "응급배관119 배관 서비스",
+    name: "우리동네전문가 배관 서비스",
     itemListElement: [
       ...drainServiceLandings.map((service, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: service.title,
-      url: `https://drain-service119.netlify.app/services/${service.slug}`,
+      url: `https://service.drain119.co.kr/services/${service.slug}`,
       })),
-      { "@type": "ListItem", position: drainServiceLandings.length + 1, name: "누수탐지 전용 안내", url: "https://drain-service119.netlify.app/leak-detection" },
+      { "@type": "ListItem", position: drainServiceLandings.length + 1, name: "누수탐지 전용 안내", url: "https://service.drain119.co.kr/leak-detection" },
     ],
   };
 
   return <main className="regionPage serviceHubPage">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemList) }} />
     <header className="topbar">
-      <a className="brand" href="/"><img className="brandSeal" src="/images/emergency-pipe-stamp.jpeg" alt="응급배관119 로고" /><span className="brandText"><span className="brandName">응급배관</span><span className="brandNumber">119</span></span></a>
+      <a className="brand" href="/"><span className="brandText"><span className="brandName">우리동네</span><span className="brandNumber">전문가</span></span></a>
       <nav aria-label="주요 메뉴"><a href="#services">배관막힘 서비스</a><a href="#regions">전국 지역</a><a href="/leak-detection">누수탐지</a><a href="/work-sites">시공현장</a><a href="/">홈</a></nav>
       <a className="headerCall" href="tel:16681321">1668-1321</a>
     </header>
