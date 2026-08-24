@@ -14,8 +14,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { segments } = await params;
   const area = resolveLeakRegion(segments);
   if (!area) return {};
-  const title = `${area.label} 누수탐지·배관 누수 점검 | 응급배관119`;
-  const description = `${area.fullName} 누수탐지 안내. 계량기 움직임, 벽·바닥 습기, 천장 물자국과 수도 압력 변화를 확인해 누수 의심 구간을 점검합니다. 응급배관119 1668-1321.`;
+  const title = `${area.label} 누수탐지·배관 누수 점검 | 우리동네전문가`;
+  const description = `${area.fullName} 누수탐지 안내. 계량기 움직임, 벽·바닥 습기, 천장 물자국과 수도 압력 변화를 확인해 누수 의심 구간을 점검합니다. 우리동네전문가 1668-1321.`;
   return {
     title,
     description,
@@ -66,7 +66,7 @@ export default async function LeakRegionPage({ params }: Props) {
     ["누수탐지와 보수는 같은 작업인가요?", "누수 의심 지점을 확인하는 탐지와 배관·마감재를 보수하는 작업은 범위가 다를 수 있어 구분해서 안내합니다."],
     ["보험 제출용 자료도 받을 수 있나요?", "보험사와 관리 주체마다 요구 자료가 다르므로 요청받은 서류 목록을 확인한 뒤 제공 가능한 기록 범위를 안내합니다."],
   ];
-  const baseUrl = "https://drain-service119.netlify.app";
+  const baseUrl = "https://service.drain119.co.kr";
   const schema = [
     {
       "@context": "https://schema.org",
@@ -75,7 +75,7 @@ export default async function LeakRegionPage({ params }: Props) {
       serviceType: "배관 누수탐지 및 누수 점검",
       url: `${baseUrl}${area.canonical}`,
       image: `${baseUrl}${leakDetectionService.image}`,
-      provider: { "@type": "LocalBusiness", name: "응급배관119", telephone: "1668-1321" },
+      provider: { "@type": "LocalBusiness", name: "우리동네전문가", telephone: "1668-1321" },
       areaServed: { "@type": "Place", name: area.fullName },
       description: `${area.fullName} 계량기 변화, 벽·바닥 습기와 배관 압력을 확인하는 누수탐지 안내`,
     },
@@ -106,7 +106,7 @@ export default async function LeakRegionPage({ params }: Props) {
   return <main className="leakHome regionPage leakRegionPage">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
     <header className="topbar">
-      <a className="brand" href="/"><img className="brandSeal" src="/images/emergency-pipe-stamp.jpeg" alt="응급배관119 로고" width="276" height="276" /><span className="brandText"><span className="brandName">응급배관</span><span className="brandNumber">119</span></span></a>
+      <a className="brand" href="/"><span className="brandText"><span className="brandName">우리동네</span><span className="brandNumber">전문가</span></span></a>
       <nav aria-label={`${area.label} 누수탐지 메뉴`}><a href="#symptoms">누수 증상</a><a href="#diagnosis">점검 기준</a><a href="#process">진행 순서</a><a href="#areas">인근 지역</a><a href={area.drainHref}>배관막힘</a></nav>
       <a className="headerCall" href="tel:16681321">1668-1321</a>
     </header>
@@ -114,7 +114,7 @@ export default async function LeakRegionPage({ params }: Props) {
     <nav className="regionBreadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span>{area.breadcrumbs.map((crumb, index) => <span className="breadcrumbPair" key={`${crumb.href}-${index}`}><a href={crumb.href}>{crumb.name}</a>{index < area.breadcrumbs.length - 1 && <i>›</i>}</span>)}</nav>
 
     <section className="regionHero leakRegionalHero">
-      <div><p className="eyebrow"><span /> {area.fullName} 누수탐지</p><h1>{area.label} 누수탐지,<br /><em>물자국과 계량기 변화부터 확인합니다</em></h1><p>{profile} 눈에 보이는 흔적만으로 위치를 단정하지 않고 배관 계통과 주변 상태를 단계적으로 확인합니다.</p><div className="heroActions"><a className="primary" href="tel:16681321">{area.label} 누수 상담 <b>1668-1321</b></a><a className="secondary messageButton" href="sms:01057765882">물자국 사진 문자상담</a></div><div className="trust"><span>✓ 지역별 누수 안내</span><span>✓ 배관 계통 구분</span><span>✓ 점검 전 범위 설명</span></div></div>
+      <div><p className="eyebrow"><span /> {area.fullName} 누수탐지</p><h1>{area.label} 누수탐지,<br /><em>물자국과 계량기 변화부터 확인합니다</em></h1><p>{profile} 눈에 보이는 흔적만으로 위치를 단정하지 않고 배관 계통과 주변 상태를 단계적으로 확인합니다.</p><div className="heroActions"><a className="primary" href="tel:16681321">{area.label} 누수 상담 <b>1668-1321</b></a></div><div className="trust"><span>✓ 지역별 누수 안내</span><span>✓ 배관 계통 구분</span><span>✓ 점검 전 범위 설명</span></div></div>
       <figure><img src={leakDetectionService.image} alt={`${area.label} 누수탐지 장비로 배관 누수 의심 구간을 확인하는 작업자`} width="1448" height="1086" fetchPriority="high" /><figcaption><small>{area.label} LEAK DETECTION</small><strong>보이는 물자국과 배관 상태를<br />함께 확인합니다.</strong></figcaption></figure>
     </section>
 
@@ -135,7 +135,7 @@ export default async function LeakRegionPage({ params }: Props) {
     <section className="leakRegionalCrosslink"><div><p className="kicker">SEPARATE SERVICE</p><h2>{area.label} 배관막힘은<br />별도 지역페이지에서 확인하세요</h2><p>싱크대·변기·하수구막힘과 고압세척은 누수탐지와 분리해 안내합니다.</p></div><a href={area.drainHref}>배관막힘 지역페이지 보기 →</a></section>
 
     <section className="finalCta leakFinalCta"><p>{area.label} 누수탐지 상담</p><h2>물자국 위치와 계량기 변화를 알려주세요.</h2><a href="tel:16681321"><span>누수탐지 상담전화</span>1668-1321</a></section>
-    <footer className="siteFooterV2"><div className="footerBrandV2"><img src="/images/emergency-pipe-footer-v2.jpeg" alt="응급배관119 로고" width="276" height="276" loading="lazy" decoding="async" /><div><span>응급배관</span><b>119</b></div></div><p className="footerServicesV2">{area.label} 누수탐지 · 계량기 변화 · 배관 압력 · 물자국 점검</p><p className="footerLegalV2">상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 응급배관119</p></footer>
-    <div className="mobileContactBar" aria-label={`${area.label} 누수탐지 빠른 상담`}><a href="sms:01057765882"><span>물자국 사진</span><b>문자상담</b></a><a href="tel:16681321"><span>{area.label} 누수상담</span><b>1668-1321</b></a></div>
+    <footer className="siteFooterV2"><div className="footerBrandV2"><div><span>우리동네</span><b>전문가</b></div></div><p className="footerServicesV2">{area.label} 누수탐지 · 계량기 변화 · 배관 압력 · 물자국 점검</p><p className="footerLegalV2">상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 우리동네전문가</p></footer>
+    <div className="mobileContactBar" aria-label={`${area.label} 누수탐지 빠른 상담`}><a href="tel:16681321"><span>{area.label} 누수상담</span><b>1668-1321</b></a></div>
   </main>;
 }
