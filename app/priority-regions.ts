@@ -1,5 +1,8 @@
+import { cities, unitsForCity, type CityArea, type UnitArea } from "./gyeonggi/area-data";
+import { municipalities, unitsFor, type Municipality, type Unit } from "./service-area/area-data";
+
 export type PriorityRegion = {
-  slug: "seongnam" | "guri" | "songpa" | "gangdong";
+  slug: string;
   name: string;
   fullName: string;
   province: string;
@@ -12,7 +15,7 @@ export type PriorityRegion = {
   localProfiles: { title: string; text: string }[];
 };
 
-export const priorityRegions: PriorityRegion[] = [
+const featuredRegions: PriorityRegion[] = [
   {
     slug: "seongnam",
     name: "성남",
@@ -87,11 +90,93 @@ export const priorityRegions: PriorityRegion[] = [
   },
 ];
 
+const featuredBySlug = new Map(featuredRegions.map((region) => [region.slug, region]));
+const shortName = (fullName: string) => fullName === "중구" ? "중구" : fullName.replace(/(?:특별시|광역시|시|군|구)$/, "");
+
+function groupNames(names: string[], limit = 4) {
+  const unique = [...new Set(names)];
+  const count = Math.min(limit, unique.length);
+  if (!count) return [];
+  const groups = Array.from({ length: count }, () => [] as string[]);
+  unique.forEach((name, index) => groups[Math.min(count - 1, Math.floor((index * count) / unique.length))].push(name));
+  return groups.filter((group) => group.length);
+}
+
+function genericProfiles(fullName: string, units: Array<UnitArea | Unit>) {
+  const districtUnits = units.filter((unit) => Boolean(unit.gu));
+  if (districtUnits.length) {
+    return districtUnits.slice(0, 4).map((unit) => {
+      const localNames = unit.locals.slice(0, 6).map((local) => local.name);
+      return {
+        title: unit.unitName,
+        text: `${localNames.join("·")} 등 ${unit.unitName}의 공동주택·주택·상가는 증상이 나타나는 배수구와 공용 배관 영향을 나누어 확인합니다.`,
+      };
+    });
+  }
+
+  const localNames = units.flatMap((unit) => unit.locals.map((local) => local.name));
+  return groupNames(localNames).map((group) => ({
+    title: `${group.slice(0, 2).join("·")} 생활권`,
+    text: `${group.slice(0, 6).join("·")} 등 ${fullName}의 공동주택·주택·상가는 건물 형태와 배관 연결 구조에 맞춰 점검 범위를 나눕니다.`,
+  }));
+}
+
+function createGyeonggiRegion(city: CityArea): PriorityRegion {
+  const featured = featuredBySlug.get(city.slug);
+  if (featured) return featured;
+  const cityUnits = unitsForCity(city);
+  const districtNames = cityUnits.filter((unit) => unit.gu).map((unit) => unit.unitName);
+  const localNames = cityUnits.flatMap((unit) => unit.locals.map((local) => local.name));
+  const summaryNames = districtNames.length ? districtNames : localNames.slice(0, 8);
+  const focusNames = (districtNames.length ? districtNames : localNames).slice(0, 4);
+  const summary = summaryNames.join(" · ");
+  return {
+    slug: city.slug,
+    name: shortName(city.name),
+    fullName: city.name,
+    province: "경기도",
+    source: "gyeonggi",
+    legacyPath: `/gyeonggi/${city.slug}`,
+    heroCopy: `${summary} 등 ${city.name} 전 지역의 공동주택·주택·상가는 배관 길이와 공용관 연결 방식이 서로 다릅니다. 현재 증상과 건물 형태부터 확인해 점검 범위를 나눕니다.`,
+    buildingCopy: `${city.name}의 아파트·빌라·주택·상업시설은 한 배수구의 문제인지 세대 가지관·건물 공용관·외부관의 영향인지 구분하는 과정이 중요합니다.`,
+    districtSummary: summary,
+    focusAreas: focusNames.map((name) => `${name} 생활권`),
+    localProfiles: genericProfiles(city.name, cityUnits),
+  };
+}
+
+function createSeoulRegion(municipality: Municipality): PriorityRegion {
+  const featured = featuredBySlug.get(municipality.slug);
+  if (featured) return featured;
+  const municipalityUnits = unitsFor(municipality);
+  const localNames = municipalityUnits.flatMap((unit) => unit.locals.map((local) => local.name));
+  const summary = localNames.slice(0, 8).join(" · ");
+  return {
+    slug: municipality.slug,
+    name: shortName(municipality.name),
+    fullName: municipality.name,
+    province: "서울특별시",
+    source: "service-area",
+    legacyPath: `/service-area/seoul/${municipality.slug}`,
+    heroCopy: `${summary} 등 ${municipality.name} 전 지역은 공동주택·주택·상업시설이 함께 있어 배관 사용량과 공용관 연결 범위가 다릅니다. 증상이 나타나는 위치와 시간대부터 확인합니다.`,
+    buildingCopy: `${municipality.name}의 아파트·오피스텔·빌라·상가는 세대 내부 막힘과 건물 공용 배관의 영향을 구분하고, 배관 길이와 장비 접근 위치를 함께 확인해야 합니다.`,
+    districtSummary: summary,
+    focusAreas: localNames.slice(0, 4).map((name) => `${name} 생활권`),
+    localProfiles: genericProfiles(municipality.name, municipalityUnits),
+  };
+}
+
+export const priorityRegions: PriorityRegion[] = [
+  ...cities.filter((city) => city.slug !== "hanam").map(createGyeonggiRegion),
+  ...municipalities.filter((municipality) => municipality.provinceSlug === "seoul").map(createSeoulRegion),
+];
+
 export const priorityRegionBySlug = (slug: string) => priorityRegions.find((region) => region.slug === slug);
 
 export const priorityRegionHref = (slug?: string) => {
   if (!slug) return undefined;
+  if (slug === "hanam") return "/hanam";
   return priorityRegionBySlug(slug) ? `/${slug}` : undefined;
 };
 
-export const priorityLegacyPaths = new Set(priorityRegions.map((region) => region.legacyPath));
+export const priorityLegacyPaths = new Set(["/gyeonggi/hanam", ...priorityRegions.map((region) => region.legacyPath)]);

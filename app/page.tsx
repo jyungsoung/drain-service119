@@ -1,6 +1,9 @@
 import { regionHubs } from "./services/service-data";
 import { priorityRegions } from "./priority-regions";
 
+const gyeonggiRegionHubs = priorityRegions.filter((region) => region.source === "gyeonggi");
+const seoulRegionHubs = priorityRegions.filter((region) => region.source === "service-area");
+
 const drainServices = [
   { title: "24시간 상담", image: "/images/service-consultation.webp", alt: "우리동네전문가 전화 상담 담당자", href: "tel:16681321" },
   { title: "하수구 막힘", image: "/images/service-dispatch.webp", alt: "하수구막힘 현장으로 장비를 들고 출동하는 작업자", href: "/services/drain-clog" },
@@ -89,7 +92,7 @@ export default function Home() {
 
       <header className="topbar">
         <a className="brand" href="#top" aria-label="우리동네전문가 최상위 홈"><span className="brandText"><span className="brandName">우리동네</span><span className="brandNumber">전문가</span></span></a>
-        <nav aria-label="주요 메뉴"><a href="#services">배관막힘</a><a href="#core-regions">핵심지역</a><a href="#regions">출장지역</a><a href="#process">작업절차</a><a href="/work-sites">시공현장</a><a href="/leak-detection">누수탐지</a></nav>
+        <nav aria-label="주요 메뉴"><a href="#services">배관막힘</a><a href="#core-regions">서울·경기</a><a href="#regions">출장지역</a><a href="#process">작업절차</a><a href="/work-sites">시공현장</a><a href="/leak-detection">누수탐지</a></nav>
         <a className="headerCall" href="tel:16681321">1668-1321</a>
       </header>
 
@@ -164,8 +167,12 @@ export default function Home() {
       </section>
 
       <section className="priorityRegionDirectory" id="core-regions">
-        <div className="regionTitle"><p className="kicker">CORE LOCAL HUB</p><h2>짧고 강한 지역 대표페이지</h2><p>하남·성남·구리·송파·강동은 지역 전체 정보와 실제 시공현장을 한곳에 모으고, 구·동별 상세페이지로 연결합니다.</p></div>
-        <div className="priorityRegionGrid"><a className="priorityRegionMain" href="/hanam"><small>BUSINESS BASE</small><strong>하남시</strong><span>미사 · 덕풍 · 신장 · 감일 · 위례</span><b>하남 대표페이지 →</b></a>{priorityRegions.map((region) => <a href={`/${region.slug}`} key={region.slug}><small>{region.province}</small><strong>{region.fullName}</strong><span>{region.districtSummary}</span><b>{region.name} 대표페이지 →</b></a>)}</div>
+        <div className="regionTitle"><p className="kicker">SEO LOCAL HUB</p><h2>서울·경기 전 지역 대표페이지</h2><p>서울 25개 구와 경기도 31개 시·군을 짧은 대표주소로 구성했습니다. 각 대표페이지에서 구·동 상세정보와 해당 지역 시공현장으로 연결됩니다.</p></div>
+        <div className="priorityRegionGroups">
+          <a className="priorityRegionMain" href="/hanam"><small>BUSINESS BASE</small><strong>하남시</strong><span>미사 · 덕풍 · 신장 · 감일 · 위례</span><b>하남 대표페이지 →</b></a>
+          <section className="priorityRegionGroup" aria-labelledby="seoul-hub-title"><header><small>SEOUL</small><h3 id="seoul-hub-title">서울특별시 25개 구</h3><p>구 대표페이지 → 동별 상세페이지 → 지역 시공현장</p></header><div className="priorityRegionLinkGrid">{seoulRegionHubs.map((region) => <a href={`/${region.slug}`} key={region.slug}><strong>{region.fullName}</strong><span>{region.name} 배관막힘 →</span></a>)}</div></section>
+          <section className="priorityRegionGroup gyeonggiRegionGroup" aria-labelledby="gyeonggi-hub-title"><header><small>GYEONGGI</small><h3 id="gyeonggi-hub-title">경기도 31개 시·군</h3><p>하남을 포함한 시·군 대표페이지 → 구·동 상세페이지 → 지역 시공현장</p></header><div className="priorityRegionLinkGrid">{gyeonggiRegionHubs.map((region) => <a href={`/${region.slug}`} key={region.slug}><strong>{region.fullName}</strong><span>{region.name} 배관막힘 →</span></a>)}</div></section>
+        </div>
       </section>
 
       <section className="featuredRegion">

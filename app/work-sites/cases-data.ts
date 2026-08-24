@@ -2,7 +2,8 @@ export type WorkCase = {
   slug: string;
   title: string;
   area: string;
-  regionSlug?: "hanam" | "seongnam" | "guri" | "songpa" | "gangdong" | string;
+  // 서울 25개 구·경기도 31개 시군의 영문 대표주소 값입니다. 예: gangnam, suwon, hanam
+  regionSlug?: string;
   areaHref?: string;
   service: string;
   serviceHref?: string;
@@ -19,6 +20,7 @@ export type WorkCase = {
 };
 
 // 실제 시공현장만 등록합니다. 새 사례는 WORK_CASE_TEMPLATE을 복사해 아래 배열에 추가하세요.
+// regionSlug만 정확히 입력하면 서울·경기 해당 지역 대표페이지에도 자동으로 연결됩니다.
 // 그러면 시공현장 목록·상세페이지·해당 지역 대표페이지·사이트맵에 함께 반영됩니다.
 export const workCases: WorkCase[] = [];
 

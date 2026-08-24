@@ -9,9 +9,11 @@
 - Target URL: `https://service.drain119.co.kr`
 - 전국 대표 페이지: `/`
 - 하남 대표 페이지: `/hanam`
+- 서울 25개 구 대표 페이지: `/{구 영문주소}`
+- 경기도 31개 시·군 대표 페이지: `/{시군 영문주소}`
 - 메인 디자인: 현장 사진 중심 에디토리얼 구성
 - 배관막힘 서비스: `/services`
 - 누수탐지 전용 페이지: `/leak-detection`
 - 누수탐지 지역 페이지: `/leak-detection/{지역경로}` 1,551개
 
-시공현장은 `app/work-sites/cases-data.ts`에 한 항목씩 추가합니다.
+시공현장은 `app/work-sites/cases-data.ts`에 한 항목씩 추가합니다. `regionSlug`를 입력하면 시공현장 목록·상세페이지·해당 서울·경기 대표페이지·사이트맵에 함께 연결됩니다.

@@ -24,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     })),
     { url: `${baseUrl}/gyeonggi`, changeFrequency: "weekly", priority: 0.9 },
-    ...allStaticSegments().filter((segments) => !(segments.length === 1 && ["hanam", ...priorityRegions.map((region) => region.slug)].includes(segments[0]))).map((segments) => ({
+    ...allStaticSegments().filter((segments) => !(segments.length === 1 && ["hanam", ...priorityRegions.filter((region) => region.source === "gyeonggi").map((region) => region.slug)].includes(segments[0]))).map((segments) => ({
       url: `${baseUrl}/gyeonggi/${segments.join("/")}`,
       changeFrequency: "monthly" as const,
       priority: segments.length === 1 ? 0.85 : segments.length === 2 && !segments[1].startsWith("d-") ? 0.8 : 0.7,
@@ -54,7 +54,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...allServiceAreaSegments().filter((segments) => {
       if (segments[0] === "gyeonggi") return false;
-      return !(segments.length === 2 && segments[0] === "seoul" && priorityRegions.some((region) => region.slug === segments[1]));
+      return !(segments.length === 2 && segments[0] === "seoul" && priorityRegions.some((region) => region.source === "service-area" && region.slug === segments[1]));
     }).map((segments) => ({
       url: `${baseUrl}/service-area/${segments.join("/")}`,
       changeFrequency: "monthly" as const,
