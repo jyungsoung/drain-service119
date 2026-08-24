@@ -42,9 +42,6 @@ export const metadata: Metadata = {
     description: "지역과 막힘 증상에 맞는 배관 서비스 안내",
     images: ["/images/service-dispatch.webp"],
   },
-  other: {
-    "codex-preview": "development",
-  },
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml", sizes: "any" }],
     shortcut: "/favicon.svg",

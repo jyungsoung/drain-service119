@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import HanamMap from "../HanamMap";
 import { hanamDongs } from "./dong-data";
 import { regionHubs } from "../services/service-data";
+import { workCases } from "../work-sites/cases-data";
 
 export const metadata: Metadata = {
   title: "하남 싱크대막힘 하수구막힘 고압세척 | 우리동네전문가",
@@ -69,6 +70,7 @@ const consultationStandards = [
 ];
 
 export default function HanamHome() {
+  const hanamCases = workCases.filter((work) => work.regionSlug === "hanam").slice(0, 6);
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -169,6 +171,11 @@ export default function HanamHome() {
           <figure className="workLarge"><img src="/images/sink-service.webp" alt="싱크대 하부 배수 트랩을 분리해 점검하는 작업" width="1536" height="1024" loading="lazy" decoding="async" /><figcaption><b>싱크대 배관 점검</b><span>트랩과 연결 배관의 막힘 상태 확인</span></figcaption></figure>
           <figure><img src="/images/inspection-equipment.webp" alt="배관 내시경과 고압세척 전문 장비" width="1536" height="1024" loading="lazy" decoding="async" /><figcaption><b>전문 진단·세척 장비</b><span>내시경 카메라 · 고압세척기 · 전용 호스</span></figcaption></figure>
         </div>
+      </section>
+
+      <section className="hubWorkRecords hanamWorkRecords">
+        <div className="hubSectionHeading light"><p className="kicker light">REAL WORK RECORD</p><h2>하남 시공현장을<br />한 건씩 누적합니다</h2><p>지역, 증상, 진단 과정, 사용 장비와 작업 결과가 확인되는 실제 사례만 등록합니다.</p></div>
+        {hanamCases.length ? <div className="workCaseGrid">{hanamCases.map((work) => <a key={work.slug} href={`/work-sites/${work.slug}`}><img src={work.image} alt={work.imageAlt || work.title} /><span>{work.area} · {work.service}</span><h3>{work.title}</h3><p>{work.summary}</p></a>)}</div> : <div className="hubWorkEmpty"><b>하남 첫 시공현장을 기다리고 있습니다</b><p>현장 사진과 동 이름, 증상, 사용 장비, 작업 결과를 전달하면 하남 대표페이지와 시공현장 게시판에 함께 연결됩니다.</p><a href="/work-sites">시공현장 게시판 보기 →</a></div>}
       </section>
 
       <section className="darkSection" id="process">

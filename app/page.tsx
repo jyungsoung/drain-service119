@@ -1,4 +1,5 @@
 import { regionHubs } from "./services/service-data";
+import { priorityRegions } from "./priority-regions";
 
 const drainServices = [
   { title: "24시간 상담", image: "/images/service-consultation.webp", alt: "우리동네전문가 전화 상담 담당자", href: "tel:16681321" },
@@ -88,7 +89,7 @@ export default function Home() {
 
       <header className="topbar">
         <a className="brand" href="#top" aria-label="우리동네전문가 최상위 홈"><span className="brandText"><span className="brandName">우리동네</span><span className="brandNumber">전문가</span></span></a>
-        <nav aria-label="주요 메뉴"><a href="#services">배관막힘</a><a href="/leak-detection">누수탐지</a><a href="#regions">출장지역</a><a href="#process">작업절차</a><a href="/work-sites">시공현장</a><a href="/hanam">하남 대표페이지</a></nav>
+        <nav aria-label="주요 메뉴"><a href="#services">배관막힘</a><a href="#core-regions">핵심지역</a><a href="#regions">출장지역</a><a href="#process">작업절차</a><a href="/work-sites">시공현장</a><a href="/leak-detection">누수탐지</a></nav>
         <a className="headerCall" href="tel:16681321">1668-1321</a>
       </header>
 
@@ -162,8 +163,13 @@ export default function Home() {
         <div className="regionDirectoryActions"><a className="primary compact" href="/service-area">전체 지역 한눈에 보기</a><a href="/services">서비스별 안내 보기 →</a></div>
       </section>
 
+      <section className="priorityRegionDirectory" id="core-regions">
+        <div className="regionTitle"><p className="kicker">CORE LOCAL HUB</p><h2>짧고 강한 지역 대표페이지</h2><p>하남·성남·구리·송파·강동은 지역 전체 정보와 실제 시공현장을 한곳에 모으고, 구·동별 상세페이지로 연결합니다.</p></div>
+        <div className="priorityRegionGrid"><a className="priorityRegionMain" href="/hanam"><small>BUSINESS BASE</small><strong>하남시</strong><span>미사 · 덕풍 · 신장 · 감일 · 위례</span><b>하남 대표페이지 →</b></a>{priorityRegions.map((region) => <a href={`/${region.slug}`} key={region.slug}><small>{region.province}</small><strong>{region.fullName}</strong><span>{region.districtSummary}</span><b>{region.name} 대표페이지 →</b></a>)}</div>
+      </section>
+
       <section className="featuredRegion">
-        <div><p className="kicker">FEATURED LOCAL PAGE</p><h2>하남시 대표 배관 안내</h2><p>우리동네전문가의 사업장 소재 지역인 하남시는 별도의 대표페이지에서 미사동·망월동·풍산동·덕풍동·신장동 등 동별 안내와 배관 증상별 점검 정보를 제공합니다.</p><div className="featuredActions"><a className="primary compact" href="/hanam">하남 대표페이지 보기</a><a href="/gyeonggi/hanam">하남 지역 목록 보기 →</a></div></div>
+          <div><p className="kicker">FEATURED LOCAL PAGE</p><h2>하남시 대표 배관 안내</h2><p>우리동네전문가의 사업장 소재 지역인 하남시는 별도의 대표페이지에서 미사동·망월동·풍산동·덕풍동·신장동 등 동별 안내와 배관 증상별 점검 정보를 제공합니다.</p><div className="featuredActions"><a className="primary compact" href="/hanam">하남 대표페이지 보기</a><a href="/work-sites">실제 시공현장 보기 →</a></div></div>
         <figure><img src="/images/plumber-worker.webp" alt="하남 배관막힘 현장에서 배관 내시경으로 점검하는 작업자" width="1672" height="941" loading="lazy" decoding="async" /><figcaption><small>하남시 지역 안내</small><strong>증상·건물·동별로<br />더 자세하게 확인하세요.</strong></figcaption></figure>
       </section>
 

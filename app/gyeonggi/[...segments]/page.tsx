@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { allStaticSegments, localPath, resolveArea, unitPath, unitsForCity } from "../area-data";
 import RegionMap from "../RegionMap";
 import LocalLandingContent from "../../LocalLandingContent";
+import { priorityRegionHref } from "../../priority-regions";
 
 type Props = { params: Promise<{ segments: string[] }> };
 
@@ -19,9 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const area = resolveArea(segments);
   if (!area) return {};
   const label = areaLabel(area);
+  const shortHub = area.level === "city" ? (area.city.slug === "hanam" ? "/hanam" : priorityRegionHref(area.city.slug)) : undefined;
   const title = `${label} 싱크대막힘·변기막힘·하수구막힘 | 우리동네전문가`;
   const description = `경기도 ${label} 싱크대막힘, 변기막힘, 하수구막힘 원인 점검과 배관 내시경·고압세척 상담. 우리동네전문가 1668-1321.`;
-  return { title, description, keywords:[`${label} 싱크대막힘`,`${label} 변기막힘`,`${label} 하수구막힘`,`${label} 고압세척`], alternates:{canonical:`/gyeonggi/${segments.join("/")}`}, openGraph:{title,description,images:[{url:"/images/plumber-worker.webp",alt:`${label} 배관막힘 현장 점검`}],type:"website",locale:"ko_KR"} };
+  return { title, description, keywords:[`${label} 싱크대막힘`,`${label} 변기막힘`,`${label} 하수구막힘`,`${label} 고압세척`], alternates:{canonical:shortHub || `/gyeonggi/${segments.join("/")}`}, openGraph:{title,description,images:[{url:"/images/plumber-worker.webp",alt:`${label} 배관막힘 현장 점검`}],type:"website",locale:"ko_KR"} };
 }
 
 const symptoms = [
@@ -41,6 +43,8 @@ export default async function GyeonggiAreaPage({ params }: Props) {
   const segments = (await params).segments;
   const area = resolveArea(segments);
   if (!area) notFound();
+  const cityHubHref = area.city.slug === "hanam" ? "/hanam" : priorityRegionHref(area.city.slug);
+  if (area.level === "city" && cityHubHref) permanentRedirect(cityHubHref);
   const label = areaLabel(area);
   const cityUnits = unitsForCity(area.city);
   const profile = area.local ? localProfile(area.local.name) : `${label}의 공동주택, 주택, 상가와 사업장 배관은 건물 형태와 막힘 범위를 구분해 확인합니다.`;
@@ -55,7 +59,7 @@ export default async function GyeonggiAreaPage({ params }: Props) {
   return <main className="regionPage">
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(schema)}} />
     <header className="topbar"><a className="brand" href="/"><span className="brandText"><span className="brandName">우리동네</span><span className="brandNumber">전문가</span></span></a><nav><a href="#service">서비스</a><a href="#process">작업절차</a><a href="#work-site">시공현장</a><a href="#faq">자주 묻는 질문</a></nav><a className="headerCall" href="tel:16681321">1668-1321</a></header>
-    <nav className="regionBreadcrumb" aria-label="현재 위치"><a href="/gyeonggi">경기도</a><span>›</span><a href={`/gyeonggi/${area.city.slug}`}>{area.city.name}</a>{area.unit?.gu && <><span>›</span><a href={unitPath(area.unit)}>{area.unit.gu}</a></>}{area.local && <><span>›</span><b>{area.local.name}</b></>}</nav>
+    <nav className="regionBreadcrumb" aria-label="현재 위치"><a href="/gyeonggi">경기도</a><span>›</span><a href={cityHubHref || `/gyeonggi/${area.city.slug}`}>{area.city.name}</a>{area.unit?.gu && <><span>›</span><a href={unitPath(area.unit)}>{area.unit.gu}</a></>}{area.local && <><span>›</span><b>{area.local.name}</b></>}</nav>
     <section className="regionHero"><div><p className="eyebrow"><span /> 경기도 {label} 배관 상담</p><h1>{label} 싱크대막힘·변기막힘,<br /><em>원인부터 정확하게 확인합니다</em></h1><p>{profile} 물이 느리게 내려가는지, 한꺼번에 사용할 때 역류하는지, 악취나 소리가 함께 나타나는지를 알려주시면 점검 방향을 안내합니다.</p><div className="trust regionalAvailability"><span>✓ 24시간 상담·출동 가능</span><span>✓ 연중무휴</span><span>✓ 새벽 3시 상담 가능</span></div><div className="heroActions"><a className="primary" href="tel:16681321">{label} 전화 상담 <b>1668-1321</b></a><a className="secondary" href="#symptoms">증상별 점검 보기 ↓</a></div><div className="trust"><span>✓ 작업 전 설명</span><span>✓ 현장 맞춤 장비</span><span>✓ 경기도 지역 상담</span></div></div><figure><img src="/images/plumber-worker.webp" alt={`${label} 배관막힘 현장에서 내시경으로 확인하는 작업자`} /><figcaption><small>{label} 배관 점검</small><strong>보이는 증상보다<br />배관 속 원인을 확인합니다.</strong></figcaption></figure></section>
     <section className="dongQuick" id="service"><b>{label} 주요 상담</b><a href="/services/sink-clog">싱크대막힘</a><a href="/services/toilet-clog">변기막힘</a><a href="/services/drain-clog">하수구막힘</a><a href="/services/pipe-camera">배관 내시경</a><a href="/services/high-pressure-cleaning">고압세척</a></section>
     {area.local&&<LocalLandingContent label={label} leakHref={`/leak-detection/gyeonggi/${segments.join("/")}`}/>}
