@@ -6,8 +6,12 @@ const canonicalOrigin = "https://service.drain119.co.kr";
 
 async function redirectLegacyArea(_request: NextRequest, context: Context) {
   const { segments } = await context.params;
-  const code = [...segments].reverse().find((segment) => /^\d{2,10}$/.test(segment));
-  const target = code ? (redirects as Record<string, string>)[code] : undefined;
+  const redirectMap = redirects as Record<string, string>;
+  const target = [...segments]
+    .reverse()
+    .filter((segment) => /^\d{2,10}$/.test(segment))
+    .map((code) => redirectMap[code])
+    .find(Boolean);
 
   if (!target) {
     return new NextResponse("Not Found", {
