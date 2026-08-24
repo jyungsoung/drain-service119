@@ -179,7 +179,7 @@ export default function Home() {
 
       <section className="faq section" id="faq"><div className="sectionHead"><div><p className="kicker">FAQ</p><h2>상담 전 많이<br />물어보시는 내용</h2></div><p>현재 지역과 증상을 알려주시면<br />확인할 순서부터 안내해 드립니다.</p></div><div className="faqList">{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary><span>Q</span>{question}<b>＋</b></summary><p>{answer}</p></details>)}</div></section>
 
-      <section className="finalCta"><p>지역과 막힘 증상을 알려주세요</p><h2>배관막힘 상담부터<br />필요한 점검 방향을 안내합니다.</h2><a href="tel:16681321"><span>배관막힘 상담전화</span>1668-1321</a></section>
+      <section className="finalCta"><p>지역과 막힘 증상을 알려주세요</p><h2>배관막힘 상담부터<br />필요한 점검 방향을 안내합니다.</h2><a href="tel:16681321" aria-label="대표번호 1668-1321로 전화 연결"><span>배관막힘 상담전화</span>1668-1321</a></section>
       <footer className="siteFooterV2"><div className="footerBrandV2" aria-label="우리동네전문가"><div><span>우리동네</span><b>전문가</b></div></div><p className="footerServicesV2">하수구 · 변기 · 싱크대 · 세면대 막힘 / 고압세척 · 배관청소 · <a href="/leak-detection">누수탐지 전용페이지 →</a></p><p className="footerLegalV2"><span>사업자등록번호 732-67-00677 · 경기도 하남시 하남대로801번길 58 4층</span><span>상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 우리동네전문가</span></p></footer>
       <div className="mobileContactBar" aria-label="빠른 상담"><a href="tel:16681321"><span>24시간 대표번호</span><b>1668-1321</b></a></div>
     </main>
