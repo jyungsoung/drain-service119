@@ -6,7 +6,7 @@ import { workCases } from "./work-sites/cases-data";
 import { drainServiceLandings } from "./services/service-data";
 import { allLeakRegionSegments } from "./leak-detection/region-data";
 
-const baseUrl = "https://drain-service119.netlify.app";
+const baseUrl = "https://service.drain119.co.kr";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

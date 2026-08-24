@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://drain-service119.netlify.app"),
+  metadataBase: new URL("https://service.drain119.co.kr"),
   title: "지역별 배관막힘·고압세척 | 응급배관119",
   description: "서울·경기·인천·강원·충청권 하수구·싱크대·변기 막힘, 배관 내시경·고압세척 지역별 안내. 누수탐지는 별도 전용페이지 운영. 응급배관119 1668-1321.",
   keywords: ["응급배관119", "하수구막힘", "싱크대막힘", "변기막힘", "배관 고압세척", "배관 내시경", "지역별 배관 서비스"],
