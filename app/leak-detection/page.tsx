@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { leakDetectionService, regionHubs } from "../services/service-data";
 
 export const metadata: Metadata = {
-  title: "누수탐지 전문·배관 누수 점검 | 응급배관119",
-  description: "계량기 움직임, 벽·바닥 습기와 물자국, 수도 압력 변화가 나타날 때 누수 가능 구간을 단계적으로 확인합니다. 응급배관119 누수탐지 전용 안내.",
+  title: "누수탐지 전문·배관 누수 점검 | 우리동네전문가",
+  description: "계량기 움직임, 벽·바닥 습기와 물자국, 수도 압력 변화가 나타날 때 누수 가능 구간을 단계적으로 확인합니다. 우리동네전문가 누수탐지 전용 안내.",
   keywords: ["누수탐지", "배관누수", "누수탐지업체", "수도누수", "누수점검", "지역별 누수탐지"],
   alternates: { canonical: "/leak-detection" },
   openGraph: {
-    title: "누수탐지 전문·배관 누수 점검 | 응급배관119",
+    title: "누수탐지 전문·배관 누수 점검 | 우리동네전문가",
     description: "보이는 물자국과 계량기 변화부터 배관별 점검 순서까지 누수탐지 전용 안내",
     url: "/leak-detection",
     images: [{ url: leakDetectionService.image, alt: leakDetectionService.alt }],
@@ -42,13 +42,13 @@ export default function LeakDetectionPage() {
     {
       "@context": "https://schema.org",
       "@type": "Service",
-      "@id": "https://drain-service119.netlify.app/leak-detection#service",
-      name: "응급배관119 누수탐지",
+      "@id": "https://service.drain119.co.kr/leak-detection#service",
+      name: "우리동네전문가 누수탐지",
       serviceType: "배관 누수탐지 및 누수 점검",
       description: leakDetectionService.description,
-      url: "https://drain-service119.netlify.app/leak-detection",
-      image: `https://drain-service119.netlify.app${leakDetectionService.image}`,
-      provider: { "@id": "https://drain-service119.netlify.app/#business" },
+      url: "https://service.drain119.co.kr/leak-detection",
+      image: `https://service.drain119.co.kr${leakDetectionService.image}`,
+      provider: { "@id": "https://service.drain119.co.kr/#business" },
       areaServed: regionHubs.map((region) => ({ "@type": "AdministrativeArea", name: region.name })),
     },
     {
@@ -64,8 +64,8 @@ export default function LeakDetectionPage() {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "홈", item: "https://drain-service119.netlify.app/" },
-        { "@type": "ListItem", position: 2, name: "누수탐지", item: "https://drain-service119.netlify.app/leak-detection" },
+        { "@type": "ListItem", position: 1, name: "홈", item: "https://service.drain119.co.kr/" },
+        { "@type": "ListItem", position: 2, name: "누수탐지", item: "https://service.drain119.co.kr/leak-detection" },
       ],
     },
   ];
@@ -73,7 +73,7 @@ export default function LeakDetectionPage() {
   return <main className="leakHome">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
     <header className="topbar">
-      <a className="brand" href="/"><img className="brandSeal" src="/images/emergency-pipe-stamp.jpeg" alt="응급배관119 로고" width="276" height="276" /><span className="brandText"><span className="brandName">응급배관</span><span className="brandNumber">119</span></span></a>
+      <a className="brand" href="/"><span className="brandText"><span className="brandName">우리동네</span><span className="brandNumber">전문가</span></span></a>
       <nav aria-label="주요 메뉴"><a href="#symptoms">누수 증상</a><a href="#diagnosis">점검 방법</a><a href="#process">진행 순서</a><a href="#regions">상담 지역</a><a href="/services">배관막힘</a></nav>
       <a className="headerCall" href="tel:16681321">1668-1321</a>
     </header>
@@ -85,7 +85,7 @@ export default function LeakDetectionPage() {
         <p className="eyebrow"><span /> 누수탐지 전용 안내</p>
         <h1>물자국만 보는 것이 아니라,<br /><em>누수 가능 구간을 단계적으로 좁힙니다</em></h1>
         <p>계량기 움직임과 벽·바닥의 습기, 배관별 압력 변화를 확인해 누수 가능성을 구분하고 필요한 점검 방향을 안내합니다.</p>
-        <div className="heroActions"><a className="primary" href="tel:16681321">누수탐지 상담 <b>1668-1321</b></a><a className="secondary messageButton" href="sms:01057765882">물자국 사진 문자상담</a></div>
+        <div className="heroActions"><a className="primary" href="tel:16681321">누수탐지 상담 <b>1668-1321</b></a></div>
         <div className="trust"><span>✓ 배관 계통 구분</span><span>✓ 점검 전 범위 안내</span><span>✓ 확인 결과 설명</span></div>
       </div>
       <figure><img src={leakDetectionService.image} alt={leakDetectionService.alt} width="1448" height="1086" fetchPriority="high" /><figcaption><small>LEAK DETECTION</small><strong>보이는 흔적과 배관 상태를<br />함께 확인합니다.</strong></figcaption></figure>
@@ -117,7 +117,7 @@ export default function LeakDetectionPage() {
     <section className="faq section leakFaq" id="faq"><div className="sectionHead"><div><p className="kicker">FAQ</p><h2>누수탐지 상담 전<br />많이 묻는 내용</h2></div><p>현장 구조와 증상에 따라<br />점검 범위가 달라질 수 있습니다.</p></div><div className="faqList">{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary><span>Q</span>{question}<b>＋</b></summary><p>{answer}</p></details>)}</div></section>
 
     <section className="finalCta leakFinalCta"><p>누수 의심 증상을 알려주세요</p><h2>계량기 변화와 물자국 위치부터<br />확인할 순서를 안내합니다.</h2><a href="tel:16681321"><span>누수탐지 상담전화</span>1668-1321</a></section>
-    <footer className="siteFooterV2"><div className="footerBrandV2" aria-label="응급배관119"><img src="/images/emergency-pipe-footer-v2.jpeg" alt="응급배관119 로고" width="276" height="276" loading="lazy" decoding="async" /><div><span>응급배관</span><b>119</b></div></div><p className="footerServicesV2">누수탐지 전용 안내 · 계량기 변화 · 배관 압력 · 물자국 점검</p><p className="footerLegalV2"><span>사업자등록번호 732-67-00677 · 경기도 하남시 하남대로801번길 58 4층</span><span>상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 응급배관119</span></p></footer>
-    <div className="mobileContactBar" aria-label="누수탐지 빠른 상담"><a href="sms:01057765882"><span>물자국 사진</span><b>문자상담</b></a><a href="tel:16681321"><span>누수탐지 상담</span><b>1668-1321</b></a></div>
+    <footer className="siteFooterV2"><div className="footerBrandV2" aria-label="우리동네전문가"><div><span>우리동네</span><b>전문가</b></div></div><p className="footerServicesV2">누수탐지 전용 안내 · 계량기 변화 · 배관 압력 · 물자국 점검</p><p className="footerLegalV2"><span>사업자등록번호 732-67-00677 · 경기도 하남시 하남대로801번길 58 4층</span><span>상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 우리동네전문가</span></p></footer>
+    <div className="mobileContactBar" aria-label="누수탐지 빠른 상담"><a href="tel:16681321"><span>누수탐지 대표번호</span><b>1668-1321</b></a></div>
   </main>;
 }

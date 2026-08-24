@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="응급배관119">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="우리동네전문가">
   <rect width="48" height="48" rx="13" fill="#071d38"/>
   <rect x="2" y="2" width="44" height="44" rx="11" fill="none" stroke="#ffd321" stroke-width="3"/>
   <text
@@ -6,9 +6,9 @@
     y="30.5"
     fill="#ffd321"
     font-family="Arial, Helvetica, sans-serif"
-    font-size="18"
+    font-size="13"
     font-weight="900"
     letter-spacing="-1.2"
     text-anchor="middle"
-  >119</text>
+  >동네</text>
 </svg>

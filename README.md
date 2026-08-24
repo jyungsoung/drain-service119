@@ -1,4 +1,4 @@
-# 응급배관119 전국 지역 페이지
+# 우리동네전문가 전국 지역 페이지
 
 서울·인천·경기·강원·충청권 시군구 및 읍면동별 배관 서비스 안내 사이트입니다.
 
@@ -6,7 +6,7 @@
 
 - Build command: `npm run build`
 - Publish directory: `.next`
-- Target URL: `https://drain-service119.netlify.app`
+- Target URL: `https://service.drain119.co.kr`
 - 전국 대표 페이지: `/`
 - 하남 대표 페이지: `/hanam`
 - 메인 디자인: 현장 사진 중심 에디토리얼 구성

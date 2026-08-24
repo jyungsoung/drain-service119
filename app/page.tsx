@@ -1,7 +1,7 @@
 import { regionHubs } from "./services/service-data";
 
 const drainServices = [
-  { title: "24시간 상담", image: "/images/service-consultation.webp", alt: "응급배관119 전화 상담 담당자", href: "tel:16681321" },
+  { title: "24시간 상담", image: "/images/service-consultation.webp", alt: "우리동네전문가 전화 상담 담당자", href: "tel:16681321" },
   { title: "하수구 막힘", image: "/images/service-dispatch.webp", alt: "하수구막힘 현장으로 장비를 들고 출동하는 작업자", href: "/services/drain-clog" },
   { title: "배관 고압세척", image: "/images/inspection-equipment.webp", alt: "배관 고압세척 전문 장비", href: "/services/high-pressure-cleaning" },
   { title: "배관 내시경", image: "/images/plumber-worker.webp", alt: "배관 내시경으로 내부를 점검하는 작업자", href: "/services/pipe-camera" },
@@ -37,12 +37,11 @@ export default function Home() {
   const businessSchema = {
     "@context": "https://schema.org",
     "@type": "Plumber",
-    "@id": "https://drain-service119.netlify.app/#business",
-    name: "응급배관119",
+    "@id": "https://service.drain119.co.kr/#business",
+    name: "우리동네전문가",
     telephone: "1668-1321",
-    url: "https://drain-service119.netlify.app/",
-    logo: "https://drain-service119.netlify.app/images/emergency-pipe-stamp.jpeg",
-    image: "https://drain-service119.netlify.app/images/service-dispatch.webp",
+    url: "https://service.drain119.co.kr/",
+    image: "https://service.drain119.co.kr/images/service-dispatch.webp",
     taxID: "732-67-00677",
     address: {
       "@type": "PostalAddress",
@@ -54,31 +53,29 @@ export default function Home() {
     areaServed: regionHubs.map((region) => ({ "@type": "AdministrativeArea", name: region.name })),
     contactPoint: [
       { "@type": "ContactPoint", telephone: "+82-1668-1321", contactType: "customer service", availableLanguage: "Korean" },
-      { "@type": "ContactPoint", telephone: "+82-10-5776-5882", contactType: "text message consultation", availableLanguage: "Korean" },
     ],
-    sameAs: ["https://drain119.co.kr/"],
     description: "서울·경기·인천·강원·충청권 하수구·싱크대·변기 막힘, 배관 내시경·고압세척 상담",
   };
 
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": "https://drain-service119.netlify.app/#website",
-    name: "응급배관119",
-    alternateName: "지역별 배관 서비스 응급배관119",
-    url: "https://drain-service119.netlify.app/",
+    "@id": "https://service.drain119.co.kr/#website",
+    name: "우리동네전문가",
+    alternateName: "지역별 배관 서비스 우리동네전문가",
+    url: "https://service.drain119.co.kr/",
     inLanguage: "ko-KR",
-    publisher: { "@id": "https://drain-service119.netlify.app/#business" },
+    publisher: { "@id": "https://service.drain119.co.kr/#business" },
   };
 
   const navigationSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "응급배관119 서비스와 출장지역 안내",
+    name: "우리동네전문가 서비스와 출장지역 안내",
     itemListElement: [
-      ...drainServices.slice(1).map((service, index) => ({ "@type": "ListItem", position: index + 1, name: service.title, url: `https://drain-service119.netlify.app${service.href}` })),
-      { "@type": "ListItem", position: drainServices.length, name: "누수탐지 전용 안내", url: "https://drain-service119.netlify.app/leak-detection" },
-      ...regionHubs.map((region, index) => ({ "@type": "ListItem", position: drainServices.length + index + 1, name: region.name, url: `https://drain-service119.netlify.app${region.href}` })),
+      ...drainServices.slice(1).map((service, index) => ({ "@type": "ListItem", position: index + 1, name: service.title, url: `https://service.drain119.co.kr${service.href}` })),
+      { "@type": "ListItem", position: drainServices.length, name: "누수탐지 전용 안내", url: "https://service.drain119.co.kr/leak-detection" },
+      ...regionHubs.map((region, index) => ({ "@type": "ListItem", position: drainServices.length + index + 1, name: region.name, url: `https://service.drain119.co.kr${region.href}` })),
     ],
   };
 
@@ -90,7 +87,7 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(navigationSchema) }} />
 
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="응급배관119 최상위 홈"><img className="brandSeal" src="/images/emergency-pipe-stamp.jpeg" alt="응급배관119 로고" width="276" height="276" /><span className="brandText"><span className="brandName">응급배관</span><span className="brandNumber">119</span></span></a>
+        <a className="brand" href="#top" aria-label="우리동네전문가 최상위 홈"><span className="brandText"><span className="brandName">우리동네</span><span className="brandNumber">전문가</span></span></a>
         <nav aria-label="주요 메뉴"><a href="#services">배관막힘</a><a href="/leak-detection">누수탐지</a><a href="#regions">출장지역</a><a href="#process">작업절차</a><a href="/work-sites">시공현장</a><a href="/hanam">하남 대표페이지</a></nav>
         <a className="headerCall" href="tel:16681321">1668-1321</a>
       </header>
@@ -101,16 +98,17 @@ export default function Home() {
           <p className="eyebrow"><span /> 지역별 배관막힘·고압세척 서비스</p>
           <h1>싱크대·변기·하수구막힘,<br /><em>현장에 맞춰 정확하게 점검합니다</em></h1>
           <p className="heroCopy">배수 지연과 역류, 악취가 반복될 때 막힌 구간을 구분하고 배관 내시경·고압세척 등 필요한 작업을 지역별로 상담합니다.</p>
-          <div className="heroActions"><a className="primary" href="tel:16681321">전화 상담 <b>1668-1321</b></a><a className="secondary messageButton" href="sms:01057765882">사진·증상 문자상담</a></div>
+          <div className="trust availabilityTrust"><span>✓ 24시간 상담·출동 가능</span><span>✓ 연중무휴</span><span>✓ 새벽 3시 상담 가능</span></div>
+          <div className="heroActions"><a className="primary" href="tel:16681321">전화 상담 <b>1668-1321</b></a></div>
           <div className="trust"><span>✓ 증상별 현장 점검</span><span>✓ 작업 전 범위·비용 안내</span><span>✓ 배관 상태에 맞는 장비</span></div>
         </div>
         <div className="heroVisual photoHero nationalHeroPhoto">
-          <img src="/images/service-dispatch.webp" alt="배관 장비를 준비해 현장으로 출동하는 응급배관119 작업자" width="724" height="543" fetchPriority="high" />
+          <img src="/images/service-dispatch.webp" alt="배관 장비를 준비해 현장으로 출동하는 우리동네전문가 작업자" width="724" height="543" fetchPriority="high" />
           <div className="photoLabel"><small>REGIONAL SERVICE NETWORK</small><strong>현재 지역을 선택하고<br />필요한 서비스를 확인하세요.</strong></div>
         </div>
       </section>
 
-      <section className="nationalPulse" aria-label="응급배관119 핵심 안내">
+      <section className="nationalPulse" aria-label="우리동네전문가 핵심 안내">
         <div><b>{regionHubs.length}</b><span>배관막힘 상담 권역</span></div><div><b>5</b><span>막힘·진단·세척 서비스</span></div><div><b>1668-1321</b><span>대표 상담번호</span></div><a href="#regions"><b>지역 선택</b><span>시·군·구·동 안내 보기 →</span></a>
       </section>
 
@@ -131,7 +129,7 @@ export default function Home() {
             <span><b>02</b><strong>고압세척</strong><small>배관 오염 범위에 맞춰 검토</small></span>
             <span><b>03</b><strong>작업 전 안내</strong><small>장비·범위·비용을 먼저 설명</small></span>
           </div>
-          <div className="equipmentActions"><a href="tel:16681321">전화로 증상 상담 <b>1668-1321</b></a><a href="sms:01057765882">사진·증상 문자 보내기 →</a></div>
+          <div className="equipmentActions"><a href="tel:16681321">전화로 증상 상담 <b>1668-1321</b></a></div>
         </div>
       </section>
 
@@ -165,7 +163,7 @@ export default function Home() {
       </section>
 
       <section className="featuredRegion">
-        <div><p className="kicker">FEATURED LOCAL PAGE</p><h2>하남시 대표 배관 안내</h2><p>응급배관119의 사업장 소재 지역인 하남시는 별도의 대표페이지에서 미사동·망월동·풍산동·덕풍동·신장동 등 동별 안내와 배관 증상별 점검 정보를 제공합니다.</p><div className="featuredActions"><a className="primary compact" href="/hanam">하남 대표페이지 보기</a><a href="/gyeonggi/hanam">하남 지역 목록 보기 →</a></div></div>
+        <div><p className="kicker">FEATURED LOCAL PAGE</p><h2>하남시 대표 배관 안내</h2><p>우리동네전문가의 사업장 소재 지역인 하남시는 별도의 대표페이지에서 미사동·망월동·풍산동·덕풍동·신장동 등 동별 안내와 배관 증상별 점검 정보를 제공합니다.</p><div className="featuredActions"><a className="primary compact" href="/hanam">하남 대표페이지 보기</a><a href="/gyeonggi/hanam">하남 지역 목록 보기 →</a></div></div>
         <figure><img src="/images/plumber-worker.webp" alt="하남 배관막힘 현장에서 배관 내시경으로 점검하는 작업자" width="1672" height="941" loading="lazy" decoding="async" /><figcaption><small>하남시 지역 안내</small><strong>증상·건물·동별로<br />더 자세하게 확인하세요.</strong></figcaption></figure>
       </section>
 
@@ -182,8 +180,8 @@ export default function Home() {
       <section className="faq section" id="faq"><div className="sectionHead"><div><p className="kicker">FAQ</p><h2>상담 전 많이<br />물어보시는 내용</h2></div><p>현재 지역과 증상을 알려주시면<br />확인할 순서부터 안내해 드립니다.</p></div><div className="faqList">{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary><span>Q</span>{question}<b>＋</b></summary><p>{answer}</p></details>)}</div></section>
 
       <section className="finalCta"><p>지역과 막힘 증상을 알려주세요</p><h2>배관막힘 상담부터<br />필요한 점검 방향을 안내합니다.</h2><a href="tel:16681321"><span>배관막힘 상담전화</span>1668-1321</a></section>
-      <footer className="siteFooterV2"><div className="footerBrandV2" aria-label="응급배관119"><img src="/images/emergency-pipe-footer-v2.jpeg" alt="응급배관119 로고" width="276" height="276" loading="lazy" decoding="async" /><div><span>응급배관</span><b>119</b></div></div><p className="footerServicesV2">하수구 · 변기 · 싱크대 · 세면대 막힘 / 고압세척 · 배관청소 · <a href="/leak-detection">누수탐지 전용페이지 →</a></p><p className="footerLegalV2"><span>사업자등록번호 732-67-00677 · 경기도 하남시 하남대로801번길 58 4층</span><span>상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 응급배관119</span></p></footer>
-      <div className="mobileContactBar" aria-label="빠른 상담"><a href="sms:01057765882"><span>사진·증상</span><b>문자상담</b></a><a href="tel:16681321"><span>대표번호</span><b>1668-1321</b></a></div>
+      <footer className="siteFooterV2"><div className="footerBrandV2" aria-label="우리동네전문가"><div><span>우리동네</span><b>전문가</b></div></div><p className="footerServicesV2">하수구 · 변기 · 싱크대 · 세면대 막힘 / 고압세척 · 배관청소 · <a href="/leak-detection">누수탐지 전용페이지 →</a></p><p className="footerLegalV2"><span>사업자등록번호 732-67-00677 · 경기도 하남시 하남대로801번길 58 4층</span><span>상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 우리동네전문가</span></p></footer>
+      <div className="mobileContactBar" aria-label="빠른 상담"><a href="tel:16681321"><span>24시간 대표번호</span><b>1668-1321</b></a></div>
     </main>
   );
 }

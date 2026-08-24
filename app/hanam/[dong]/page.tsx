@@ -15,12 +15,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { dong } = await params;
   const area = getDong(dong);
   if (!area) return {};
-  const title = `${area.name} 싱크대막힘·변기막힘·하수구막힘 | 응급배관119`;
-  const description = `하남시 ${area.name} 싱크대막힘, 변기막힘, 하수구막힘 원인 점검과 배관 내시경·고압세척 상담. 응급배관119 1668-1321.`;
+  const title = `${area.name} 싱크대막힘·변기막힘·하수구막힘 | 우리동네전문가`;
+  const description = `하남시 ${area.name} 싱크대막힘, 변기막힘, 하수구막힘 원인 점검과 배관 내시경·고압세척 상담. 우리동네전문가 1668-1321.`;
   return {
     title,
     description,
-    keywords: [`${area.name} 싱크대막힘`, `${area.name} 변기막힘`, `${area.name} 하수구막힘`, `${area.name} 고압세척`, "응급배관119"],
+    keywords: [`${area.name} 싱크대막힘`, `${area.name} 변기막힘`, `${area.name} 하수구막힘`, `${area.name} 고압세척`, "우리동네전문가"],
     alternates: { canonical: `/hanam/${area.slug}` },
     openGraph: { title, description, type: "website", locale: "ko_KR" },
   };
@@ -46,7 +46,7 @@ export default async function DongDrainPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "Service",
     name: `${area.name} 싱크대막힘·변기막힘·하수구막힘 상담`,
-    provider: { "@type": "LocalBusiness", name: "응급배관119", telephone: "1668-1321" },
+    provider: { "@type": "LocalBusiness", name: "우리동네전문가", telephone: "1668-1321" },
     areaServed: { "@type": "Place", name: `경기도 하남시 ${area.name}` },
     description: `${area.name} 배관막힘 원인 점검, 배관 내시경과 고압세척 상담`,
   };
@@ -55,7 +55,7 @@ export default async function DongDrainPage({ params }: PageProps) {
     <main className="dongPage">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <header className="topbar">
-        <a className="brand" href="/" aria-label="응급배관119 하남 홈"><img className="brandSeal" src="/images/emergency-pipe-stamp.jpeg" alt="응급배관 도장 로고" /><span className="brandText"><span className="brandName">응급배관</span><span className="brandNumber">119</span></span></a>
+        <a className="brand" href="/" aria-label="우리동네전문가 하남 홈"><span className="brandText"><span className="brandName">우리동네</span><span className="brandNumber">전문가</span></span></a>
         <nav aria-label="동별 페이지 메뉴"><a href="#service">서비스</a><a href="#process">작업절차</a><a href="#work-site">시공현장</a><a href="#faq">자주 묻는 질문</a></nav>
         <a className="headerCall" href="tel:16681321">1668-1321</a>
       </header>
@@ -101,7 +101,7 @@ export default async function DongDrainPage({ params }: PageProps) {
       </section>
 
       <section className="finalCta"><p>{area.name} 배관막힘 상담</p><h2>지금 증상을 알려주세요.<br />필요한 작업부터 안내합니다.</h2><a href="tel:16681321"><span>365일 상담전화</span>1668-1321</a></section>
-      <footer className="siteFooterV2"><div className="footerBrandV2"><img src="/images/emergency-pipe-stamp.jpeg" alt="응급배관 도장 로고" /><div><span>응급배관</span><b>119</b></div></div><p className="footerServicesV2">싱크대 · 변기 · 하수구 막힘 / 고압세척 · 배관청소</p><p className="footerLegalV2">상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 응급배관119</p></footer>
+      <footer className="siteFooterV2"><div className="footerBrandV2"><div><span>우리동네</span><b>전문가</b></div></div><p className="footerServicesV2">싱크대 · 변기 · 하수구 막힘 / 고압세척 · 배관청소</p><p className="footerLegalV2">상담 가능 시간 및 출동 여부는 현장 일정에 따라 달라질 수 있습니다. © 우리동네전문가</p></footer>
       <a className="floatingCall" href="tel:16681321" aria-label={`${area.name} 배관 전화 상담`}>☎<b>전화상담</b></a>
     </main>
   );
