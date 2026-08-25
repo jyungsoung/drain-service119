@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import RegionMap from "../../gyeonggi/RegionMap";
 import { leakDetectionService } from "../../services/service-data";
+import { workCases } from "../../work-sites/cases-data";
 import { allLeakRegionSegments, resolveLeakRegion } from "../region-data";
 
 type Props = { params: Promise<{ segments: string[] }> };
@@ -60,6 +61,9 @@ export default async function LeakRegionPage({ params }: Props) {
   const profile = area.localName
     ? localProfiles[area.localName.charCodeAt(0) % localProfiles.length]
     : `${area.label}의 아파트·빌라·주택·상가에서 나타나는 누수 흔적은 건물 구조와 배관 종류에 따라 확인 순서가 달라질 수 있습니다.`;
+  const localWorkCases = workCases
+    .filter((work) => work.service === "누수탐지" && work.regionSlug && segments.includes(work.regionSlug))
+    .slice(0, 3);
   const faqs = [
     ["물자국 위치가 실제 누수 지점인가요?", "물은 벽체와 바닥, 마감재를 따라 이동할 수 있어 보이는 물자국과 실제 누수 시작 지점이 다를 수 있습니다."],
     [`${area.label} 누수탐지 비용을 전화로 확정할 수 있나요?`, "건물 구조와 확인할 배관, 접근 범위와 필요한 장비에 따라 달라집니다. 현장 점검 전에 예상 범위를 설명하고 확인 후 다시 안내합니다."],
@@ -129,6 +133,8 @@ export default async function LeakRegionPage({ params }: Props) {
     <section className="regionAreas" id="areas"><div className="regionTitle"><p className="kicker">LEAK SERVICE AREA</p><h2>{area.directoryTitle}</h2><p>각 지역별 누수탐지 페이지에서 지역명에 맞는 증상 안내와 인접 지역 연결을 확인할 수 있습니다.</p></div><div className="regionAreaGrid">{area.directory.map((item) => <a href={item.href} key={item.href}><strong>{item.name}</strong><span>{item.detail} →</span></a>)}</div></section>
 
     <section className="dongProcess" id="process"><div className="dongSectionTitle"><p className="kicker">WORK FLOW</p><h2>{area.label}<br />누수탐지 진행 순서</h2></div><ol>{process.map(([number, title, text]) => <li key={number}><b>{number}</b><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol></section>
+
+    {localWorkCases.length > 0 && <section className="regionDirectory leakLocalWorkCases"><div className="regionTitle"><p className="kicker">REAL WORK RECORD</p><h2>{area.label} 누수탐지<br />실제 점검 현장</h2><p>같은 지역에서 실제 촬영한 누수 점검 과정과 압력검사, 확인 결과를 연결합니다.</p></div><div className="workCaseGrid">{localWorkCases.map((work) => <a href={`/work-sites/${work.slug}`} key={work.slug}><figure><img src={work.image} alt={work.imageAlt || work.title} loading="lazy" decoding="async" /></figure><span>{work.area} · {work.service}</span><h3>{work.title}</h3><p>{work.summary}</p><small>실제 시공현장 보기 →</small></a>)}</div></section>}
 
     <section className="faq section regionFaq" id="faq"><div className="sectionHead"><div><p className="kicker">FAQ</p><h2>{area.label} 누수탐지<br />자주 묻는 질문</h2></div><p>정확한 점검 범위는 건물 구조와<br />현장 상태를 확인한 뒤 안내합니다.</p></div><div className="faqList">{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary><span>Q</span>{question}<b>＋</b></summary><p>{answer}</p></details>)}</div></section>
 

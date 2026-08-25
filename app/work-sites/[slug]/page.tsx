@@ -31,12 +31,16 @@ export default async function WorkCasePage({ params }: Props) {
   const regionHref = work.areaHref || priorityRegionHref(work.regionSlug);
   const related = workCases.filter((item) => item.slug !== work.slug && (item.regionSlug === work.regionSlug || item.service === work.service)).slice(0, 3);
   const canonical = `https://service.drain119.co.kr/work-sites/${work.slug}`;
+  const articleImages = [
+    work.image,
+    ...(work.media || []).filter((media) => media.type === "image").map((media) => media.src),
+  ].map((image) => `https://service.drain119.co.kr${image}`);
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: work.title,
     description: work.summary,
-    image: [`https://service.drain119.co.kr${work.image}`],
+    image: articleImages,
     datePublished: work.date,
     dateModified: work.updatedAt || work.date,
     mainEntityOfPage: canonical,
@@ -59,8 +63,8 @@ export default async function WorkCasePage({ params }: Props) {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
     <header className="topbar"><a className="brand" href="/"><span className="brandText"><span className="brandName">우리동네</span><span className="brandNumber">전문가</span></span></a><nav><a href="/services">서비스</a><a href="/service-area">출동지역</a><a href="/work-sites">시공현장</a></nav><a className="headerCall" href="tel:16681321">1668-1321</a></header>
     <nav className="regionBreadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><a href="/work-sites">시공현장</a><span>›</span><b>{work.title}</b></nav>
-    <article className="workCaseDetail"><header><p className="kicker">{work.area} · {work.service}</p><h1>{work.title}</h1><div className="workCaseMeta"><time dateTime={work.date}>{work.date}</time>{regionHref && <a href={regionHref}>{work.area} 지역 안내 →</a>}{work.serviceHref && <a href={work.serviceHref}>{work.service} 서비스 안내 →</a>}</div></header><figure className="workCaseMainImage"><img src={work.image} alt={work.imageAlt || work.title} /><figcaption>{work.imageAlt || `${work.area} ${work.service} 시공현장`}</figcaption></figure><p className="workCaseLead">{work.summary}</p><section className="workCaseStory"><h2>현장 확인과 작업 과정</h2>{work.details.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</section><div className="workCaseFacts"><DetailList title="현장 증상" items={work.symptoms} /><DetailList title="진단 내용" items={work.diagnosis} /><DetailList title="사용 장비" items={work.equipment} /><DetailList title="작업 결과" items={work.result} /></div><a className="primary compact" href="tel:16681321">비슷한 증상 상담하기</a></article>
+    <article className="workCaseDetail"><header><p className="kicker">{work.area} · {work.service}</p><h1>{work.title}</h1><div className="workCaseMeta"><time dateTime={work.date}>{work.date}</time>{regionHref && <a href={regionHref}>{work.area} 지역 안내 →</a>}{work.serviceHref && <a href={work.serviceHref}>{work.service} 서비스 안내 →</a>}</div></header><figure className="workCaseMainImage"><img src={work.image} alt={work.imageAlt || work.title} /><figcaption>{work.imageAlt || `${work.area} ${work.service} 시공현장`}</figcaption></figure><p className="workCaseLead">{work.summary}</p><section className="workCaseStory"><h2>현장 확인과 작업 과정</h2>{work.details.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</section>{work.media && work.media.length > 0 && <section className="workCaseMedia"><div className="workCaseMediaHeading"><p className="kicker">FIELD MEDIA</p><h2>{work.area} {work.service} 현장 사진과 영상</h2><p>배관 계통 점검부터 압력검사, 주변 누수 원인 확인까지 실제 촬영 순서에 맞춰 정리했습니다.</p></div><div className="workCaseMediaGrid">{work.media.map((media) => <figure key={media.src}>{media.type === "image" ? <img src={media.src} alt={media.alt} loading="lazy" decoding="async" /> : <video controls playsInline preload="metadata" poster={media.poster} aria-label={media.alt}><source src={media.src} type="video/mp4" /><p>{media.alt}</p></video>}<figcaption>{media.caption}</figcaption></figure>)}</div></section>}<div className="workCaseFacts"><DetailList title="현장 증상" items={work.symptoms} /><DetailList title="진단 내용" items={work.diagnosis} /><DetailList title="사용 장비" items={work.equipment} /><DetailList title="점검 결과" items={work.result} /></div><a className="primary compact" href="tel:16681321">비슷한 증상 상담하기</a></article>
     {related.length > 0 && <section className="relatedWorkCases"><div className="regionTitle"><p className="kicker">RELATED WORK</p><h2>관련 시공현장</h2></div><div className="workCaseGrid">{related.map((item) => <a key={item.slug} href={`/work-sites/${item.slug}`}><img src={item.image} alt={item.imageAlt || item.title} /><span>{item.area} · {item.service}</span><h3>{item.title}</h3><p>{item.summary}</p></a>)}</div></section>}
-    <section className="finalCta"><p>{work.area} 배관막힘 상담</p><h2>현재 증상과 위치를 알려주세요.</h2><a href="tel:16681321"><span>대표 상담전화</span>1668-1321</a></section>
+    <section className="finalCta"><p>{work.area} {work.service} 상담</p><h2>현재 증상과 위치를 알려주세요.</h2><a href="tel:16681321"><span>대표 상담전화</span>1668-1321</a></section>
   </main>;
 }
