@@ -10,7 +10,7 @@ export type WorkCase = {
   date: string;
   updatedAt?: string;
   summary: string;
-  image: string;
+  image?: string;
   imageAlt?: string;
   details: string[];
   symptoms?: string[];
@@ -26,7 +26,7 @@ export type WorkCase = {
   }[];
 };
 
-// 실제 시공현장만 등록합니다. 새 사례는 WORK_CASE_TEMPLATE을 복사해 아래 배열에 추가하세요.
+// 지역 + 서비스 + 짧은 사연 중심의 글만 등록해도 됩니다. 사진/영상은 선택 사항입니다.
 // regionSlug만 정확히 입력하면 서울·경기 해당 지역 대표페이지에도 자동으로 연결됩니다.
 // 그러면 시공현장 목록·상세페이지·해당 지역 대표페이지·사이트맵에 함께 반영됩니다.
 export const workCases: WorkCase[] = [
@@ -127,27 +127,16 @@ export const workCases: WorkCase[] = [
 
 export const WORK_CASE_TEMPLATE: WorkCase = {
   slug: "지역-동-서비스-날짜",
-  title: "지역과 증상이 드러나는 실제 시공현장 제목",
-  area: "시·구 동 이름",
+  title: "경기도 하남시 미사동 싱크대막힘 해결",
+  area: "경기도 하남시 미사동",
   regionSlug: "hanam",
   areaHref: "/hanam",
   service: "싱크대막힘",
   serviceHref: "/services/sink-clog",
   date: "YYYY-MM-DD",
-  summary: "현장 도착 당시 증상과 작업 결과를 한두 문장으로 요약합니다.",
-  image: "/images/work-sites/실제사진.webp",
-  imageAlt: "지역·건물·작업 내용이 드러나는 실제 현장 사진 설명",
-  details: ["건물 형태와 고객이 알려준 증상", "확인한 배관 구간과 진단 과정", "작업 후 배수 상태와 안내 내용"],
-  symptoms: ["물이 천천히 내려감"],
-  diagnosis: ["배관 내시경으로 확인한 실제 내용"],
-  equipment: ["현장에서 실제로 사용한 장비"],
-  result: ["작업 후 실제 확인한 결과"],
-  media: [
-    {
-      type: "image",
-      src: "/images/work-sites/실제사진-추가.webp",
-      alt: "지역·건물·작업 단계가 드러나는 현장 사진 설명",
-      caption: "사진에서 확인할 수 있는 작업 내용을 설명합니다.",
-    },
+  summary: "미사동에서 싱크대 물이 잘 내려가지 않는다는 상담을 받고 방문해 막힘을 해결한 간단한 현장 기록입니다.",
+  details: [
+    "고객이 알려준 증상과 방문하게 된 사연을 짧게 적습니다.",
+    "현장에서 확인하고 해결한 내용을 사실대로 간단히 적습니다.",
   ],
 };
