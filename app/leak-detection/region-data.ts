@@ -147,7 +147,11 @@ function resolveGeneralLeak(segments: string[]): LeakRegionData | null {
 
   const label = area.local
     ? `${area.unit?.unitName} ${area.local.name}`
-    : area.unit?.unitName || area.municipality?.name || area.province.name;
+    : area.unit?.unitName || (area.municipality
+      ? (area.level === "municipality" && area.province.slug !== "seoul"
+        ? `${area.province.short} ${area.municipality.name}`
+        : area.municipality.name)
+      : area.province.name);
   const municipalities = municipalitiesFor(area.province);
   const municipalityUnits = area.municipality ? unitsFor(area.municipality) : [];
   const center: [number, number] = area.local?.center
