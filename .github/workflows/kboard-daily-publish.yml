@@ -1,0 +1,105 @@
+name: KBoard Daily Publish
+
+on:
+  schedule:
+    # 매일 04:10 KST (전날 19:10 UTC)
+    - cron: '10 19 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/kboard-daily-publish.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: kboard-daily-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Publish 200 KBoard local posts
+        env:
+          DRAIN119_WP_BASE: https://drain119.co.kr
+          DRAIN119_WP_USER: ${{ secrets.DRAIN119_WP_USER }}
+          DRAIN119_WP_APP_PASSWORD: ${{ secrets.DRAIN119_WP_APP_PASSWORD }}
+          DRAIN119_KBOARD_BOARD_ID: '1'
+          KBOARD_DAILY_OUT_DIR: ${{ runner.temp }}/kboard-daily
+        run: node scripts/kboard-daily-publisher.mjs
+
+      - name: Add publishing summary
+        if: always()
+        shell: bash
+        run: |
+          REPORT="${{ runner.temp }}/kboard-daily/kboard-daily-report.json"
+          if [ -f "$REPORT" ]; then
+            node - "$REPORT" <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          const fs = require('fs');
+          const r = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          console.log(`## 응급배관119 KBoard 자동발행`);
+          console.log(`- 날짜: ${r.date}`);
+          console.log(`- 게시판 ID: ${r.boardId}`);
+          console.log(`- 대상: ${r.total}개`);
+          console.log(`- 신규 등록: ${r.created ?? 0}개`);
+          console.log(`- 중복 감지: ${r.duplicates ?? 0}개`);
+          console.log(`- 오류: ${r.errors ?? 0}개`);
+          for (const [service, count] of Object.entries(r.serviceCounts || {})) console.log(`- ${service}: ${count}개`);
+          NODE
+          else
+            echo "## 응급배관119 KBoard 자동발행" >> "$GITHUB_STEP_SUMMARY"
+            echo "- 보고서가 생성되지 않았습니다." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload KBoard publishing report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kboard-daily-${{ github.run_number }}
+          path: ${{ runner.temp }}/kboard-daily/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Close recovered publishing issue
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        shell: bash
+        run: |
+          TITLE="[자동발행] 응급배관119 KBoard 200개 발행 실패"
+          EXISTING=$(gh issue list --state open --search "in:title $TITLE" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "KBoard 자동발행이 정상으로 회복되었습니다.\n\n- 정상 확인 실행: $RUN_URL"
+            gh issue close "$EXISTING" --reason completed
+          fi
+
+      - name: Report publishing failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        shell: bash
+        run: |
+          TITLE="[자동발행] 응급배관119 KBoard 200개 발행 실패"
+          EXISTING=$(gh issue list --state open --search "in:title $TITLE" --json number --jq '.[0].number // empty')
+          BODY="응급배관119 KBoard 자동발행 실행에서 오류가 발생했습니다.\n\n- 실행: $RUN_URL\n- 상세 보고서: 해당 Actions 실행 artifact 확인\n\n중복 방지 키가 적용되어 같은 배치를 다시 실행해도 이미 등록된 글은 새로 만들지 않습니다."
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh issue create --title "$TITLE" --body "$BODY"
+          fi
