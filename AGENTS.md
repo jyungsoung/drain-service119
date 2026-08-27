@@ -34,6 +34,14 @@
 - 중요한 이미지 ALT 확인
 - sitemap 포함 여부 확인
 
+## SEO 검사 도구
+- 빠른 대량 검사는 `node scripts/seo-audit.mjs`를 사용한다.
+- 기본 실행은 프로젝트를 수정하지 않고 `/tmp/drain119-seo-audit`에 CSV/JSON 보고서를 만든다.
+- 예: `node scripts/seo-audit.mjs --limit 100 --link-sample 5`
+- 이미지까지 확인할 때만 `--check-images`를 추가한다. 대량 실행에서는 네트워크 부하를 고려해 먼저 소규모로 검증한다.
+- 실제 브라우저 렌더링 검수는 전역 설치 없이 `/tmp`에서 `npx -y @playwright/cli@latest`를 사용한다.
+- 대량 HTTP 검사에서 발견된 문제 URL을 Playwright CLI로 재검증한 뒤 수정한다.
+
 ## 배포 안전 규칙
 - `main` 직접 수정 금지. 별도 브랜치에서 작업 후 검수한다.
 - 대량 삭제 금지.
@@ -53,7 +61,8 @@
 2. 관련 코드/데이터 위치 확인
 3. 변경 범위 제시
 4. 별도 브랜치에서 수정
-5. build 및 자동 검수
-6. 문제가 있으면 수정 후 재검수
-7. 변경 파일과 검수 결과 보고
-8. 승인된 경우에만 main 반영 또는 배포
+5. 대량 SEO 검사 + 필요한 URL Playwright 브라우저 재검증
+6. build 및 자동 검수
+7. 문제가 있으면 수정 후 재검수
+8. 변경 파일과 검수 결과 보고
+9. 승인된 경우에만 main 반영 또는 배포
