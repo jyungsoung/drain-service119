@@ -1,0 +1,30 @@
+name: WordPress Bridge CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'wordpress-plugin/**'
+      - 'scripts/kboard-bridge-client.mjs'
+      - '.github/workflows/wordpress-bridge-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show PHP version
+        run: php -v
+
+      - name: Lint KBoard bridge
+        run: php -l wordpress-plugin/drain119-kboard-bridge/drain119-kboard-bridge.php
+
+      - name: Syntax-check bridge client
+        run: node --check scripts/kboard-bridge-client.mjs
