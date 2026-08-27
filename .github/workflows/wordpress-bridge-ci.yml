@@ -6,8 +6,10 @@ on:
     paths:
       - 'wordpress-plugin/**'
       - 'scripts/kboard-bridge-client.mjs'
+      - 'scripts/kboard-daily-publisher.mjs'
+      - '.github/workflows/kboard-daily-publish.yml'
       - '.github/workflows/wordpress-bridge-ci.yml'
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -15,7 +17,7 @@ permissions:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,3 +30,12 @@ jobs:
 
       - name: Syntax-check bridge client
         run: node --check scripts/kboard-bridge-client.mjs
+
+      - name: Syntax-check daily publisher
+        run: node --check scripts/kboard-daily-publisher.mjs
+
+      - name: Dry-run 200-post KBoard batch
+        env:
+          KBOARD_DAILY_OUT_DIR: ${{ runner.temp }}/kboard-dry
+          DRAIN119_KBOARD_BOARD_ID: '1'
+        run: node scripts/kboard-daily-publisher.mjs --dry-run --date=2026-08-27
