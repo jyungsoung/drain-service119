@@ -1,0 +1,133 @@
+name: Daily Local Updates
+
+on:
+  schedule:
+    # 매일 02:30 KST (전날 17:30 UTC)
+    - cron: '30 17 * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: daily-local-updates
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    # 자동발행 커밋이 다시 이 workflow를 재귀 실행하지 않도록 막습니다.
+    if: github.event_name != 'push' || !startsWith(github.event.head_commit.message, 'Publish 200 local updates')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate 200 local text updates
+        run: npm run updates:generate
+
+      - name: Validate daily distribution
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const items = JSON.parse(fs.readFileSync('app/work-sites/generated-cases.json', 'utf8'));
+          const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+          const services = ['싱크대막힘','변기막힘','하수구막힘','누수탐지','고압세척'];
+          const today = items.filter((item) => item.date === date);
+          const counts = Object.fromEntries(services.map((service) => [service, today.filter((item) => item.service === service).length]));
+          console.log({ date, total: today.length, counts });
+          if (today.length !== 200 || services.some((service) => counts[service] !== 40)) process.exit(1);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `date=${date}\nfirst_slug=${today[0].slug}\n`);
+          NODE
+        id: generated
+
+      - name: Build site
+        run: npm run build
+
+      - name: Check generated diff
+        run: git diff --check
+
+      - name: Commit generated updates
+        shell: bash
+        run: |
+          if git diff --quiet -- app/work-sites/generated-cases.json; then
+            echo "No new generated updates to commit."
+            exit 0
+          fi
+          git config user.name "drain119-automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add app/work-sites/generated-cases.json
+          git commit -m "Publish 200 local updates ${{ steps.generated.outputs.date }}"
+          git push origin HEAD:main
+
+      - name: Wait for Netlify production deploy
+        shell: bash
+        env:
+          FIRST_SLUG: ${{ steps.generated.outputs.first_slug }}
+        run: |
+          URL="https://service.drain119.co.kr/work-sites/$FIRST_SLUG"
+          echo "Waiting for $URL"
+          for attempt in $(seq 1 30); do
+            CODE=$(curl -L -sS -o /dev/null -w '%{http_code}' "$URL" || true)
+            if [ "$CODE" = "200" ]; then
+              echo "Published: $URL"
+              exit 0
+            fi
+            echo "Attempt $attempt/30: HTTP $CODE"
+            sleep 20
+          done
+          echo "Production URL did not become HTTP 200 in time."
+          exit 1
+
+      - name: Verify sitemap includes new update
+        shell: bash
+        env:
+          FIRST_SLUG: ${{ steps.generated.outputs.first_slug }}
+        run: |
+          curl -L -fsS https://service.drain119.co.kr/sitemap.xml | grep -F "/work-sites/$FIRST_SLUG" >/dev/null
+          echo "Sitemap contains /work-sites/$FIRST_SLUG"
+
+      - name: Close recovered publishing issue
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          TITLE="[자동발행] 지역글 200개 발행 실패"
+          EXISTING=$(gh issue list --state open --search "in:title $TITLE" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "지역글 자동발행이 정상으로 회복되었습니다. 실행: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            gh issue close "$EXISTING" --reason completed
+          fi
+
+      - name: Report publishing failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          TITLE="[자동발행] 지역글 200개 발행 실패"
+          RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          EXISTING=$(gh issue list --state open --search "in:title $TITLE" --json number --jq '.[0].number // empty')
+          BODY="하루 200개 지역글 자동발행 중 오류가 발생했습니다.\n\n- 실행: $RUN_URL\n- 자동발행은 실패 지점에서 중단되었습니다.\n- 실제 현장으로 꾸민 글은 생성하지 않습니다."
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh issue create --title "$TITLE" --body "$BODY"
+          fi
