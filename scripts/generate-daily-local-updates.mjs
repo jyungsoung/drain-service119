@@ -15,18 +15,18 @@ const SERVICES = [
 ];
 
 const ANGLES = [
-  { key: "solve", title: "해결 안내", lead: "증상이 생겼을 때 확인할 순서와 해결 방향" },
-  { key: "slow", title: "초기 증상 안내", lead: "처음 나타나는 증상에서 확인할 내용" },
-  { key: "repeat", title: "반복 증상 점검", lead: "한 번 처리한 뒤 다시 나타나는 경우 확인할 내용" },
+  { key: "solve", title: "해결 안내", lead: "확인할 순서와 해결 방향" },
+  { key: "slow", title: "초기 증상 안내", lead: "초기 증상에서 확인할 내용" },
+  { key: "repeat", title: "반복 증상 점검", lead: "반복될 때 확인할 내용" },
   { key: "cause", title: "원인 확인 안내", lead: "원인 구간을 나눠 확인하는 방법" },
-  { key: "building", title: "건물별 점검 안내", lead: "주택·아파트·상가에서 달라질 수 있는 점검 범위" },
-  { key: "urgent", title: "갑작스러운 증상 안내", lead: "갑자기 증상이 심해졌을 때 먼저 확인할 내용" },
-  { key: "check", title: "점검 방법 안내", lead: "작업 전 확인하면 좋은 증상과 배관 상태" },
-  { key: "prevent", title: "재발 예방 안내", lead: "같은 문제가 반복되지 않도록 확인할 관리 포인트" },
+  { key: "building", title: "건물별 점검 안내", lead: "건물 형태에 따라 달라지는 점검 범위" },
+  { key: "urgent", title: "갑작스러운 증상 안내", lead: "갑자기 심해졌을 때 먼저 확인할 내용" },
+  { key: "check", title: "점검 방법 안내", lead: "작업 전에 확인하면 좋은 배관 상태" },
+  { key: "prevent", title: "재발 예방 안내", lead: "재발을 줄이기 위해 확인할 관리 포인트" },
   { key: "consult", title: "상담 전 확인사항", lead: "상담 전에 위치와 증상을 정리하는 방법" },
-  { key: "method", title: "작업 방법 안내", lead: "증상과 배관 상태에 맞춰 작업 범위를 정하는 기준" },
-  { key: "deep", title: "배관 내부 점검 안내", lead: "겉으로 보이는 증상과 배관 내부 원인을 구분하는 기준" },
-  { key: "local", title: "지역 서비스 안내", lead: "지역에서 자주 문의하는 증상과 점검 방향" },
+  { key: "method", title: "작업 방법 안내", lead: "배관 상태에 맞춰 작업 범위를 정하는 기준" },
+  { key: "deep", title: "배관 내부 점검 안내", lead: "겉으로 보이는 증상과 내부 원인을 구분하는 기준" },
+  { key: "local", title: "지역 서비스 안내", lead: "지역에서 문의가 많은 증상과 점검 방향" },
 ];
 
 const SERVICE_COPY = {
@@ -143,13 +143,24 @@ function argValue(name, fallback) {
   return found ? found.slice(prefix.length) : fallback;
 }
 
+function cleanExistingItem(item) {
+  if (!item?.summary) return item;
+  let summary = item.summary;
+  summary = summary.replace("증상이 생겼을 때 증상이 생겼을 때 확인할 순서와 해결 방향", "증상이 생겼을 때 확인할 순서와 해결 방향");
+  summary = summary.replace("확인하면 좋은 증상이 생겼을 때 확인할 순서와 해결 방향", "확인하면 좋은 확인 순서와 해결 방향");
+  summary = summary.replace("확인할 때 필요한 증상이 생겼을 때 확인할 순서와 해결 방향", "확인할 때 필요한 확인 순서와 해결 방향");
+  return summary === item.summary ? item : { ...item, summary };
+}
+
 const date = argValue("date", kstDate());
 const perService = Number(argValue("per-service", "40"));
 if (!Number.isInteger(perService) || perService < 1 || perService > 200) {
   throw new Error("--per-service must be an integer between 1 and 200");
 }
 
-const generated = fs.existsSync(GENERATED_FILE) ? readJson(GENERATED_FILE) : [];
+const rawGenerated = fs.existsSync(GENERATED_FILE) ? readJson(GENERATED_FILE) : [];
+const generated = rawGenerated.map(cleanExistingItem);
+const cleanupChanged = JSON.stringify(rawGenerated) !== JSON.stringify(generated);
 const usedSlugs = new Set(generated.map((item) => item.slug));
 const todayCounts = new Map(SERVICES.map((service) => [service.name, generated.filter((item) => item.date === date && item.service === service.name).length]));
 
@@ -191,8 +202,8 @@ for (let serviceIndex = 0; serviceIndex < SERVICES.length; serviceIndex += 1) {
     const variant = (index + serviceIndex) % 3;
     const summaryVariants = [
       `${location.area}에서 ${service.name} 증상이 생겼을 때 ${angle.lead}을 간단히 정리한 지역 안내입니다.`,
-      `${location.area} ${service.name} 관련 문의 전에 확인하면 좋은 ${angle.lead}을 짧게 안내합니다.`,
-      `${location.area}에서 ${service.name} 문제를 확인할 때 필요한 ${angle.lead}을 지역 기준으로 정리했습니다.`,
+      `${location.area} ${service.name} 관련 문의 전에 ${angle.lead}을 짧게 안내합니다.`,
+      `${location.area}에서 ${service.name} 문제를 확인할 때 ${angle.lead}을 지역 기준으로 정리했습니다.`,
     ];
     const detailVariants = [
       `${location.area}에서 ${service.name} 증상이 나타났다면 먼저 현재 상태를 구분하는 것이 중요합니다. ${copy.symptoms}`,
@@ -223,7 +234,7 @@ for (let serviceIndex = 0; serviceIndex < SERVICES.length; serviceIndex += 1) {
   }
 }
 
-if (!newItems.length) {
+if (!newItems.length && !cleanupChanged) {
   console.log(`No new items needed for ${date}. Daily target is already satisfied.`);
   process.exit(0);
 }
@@ -237,6 +248,7 @@ const serviceSummary = SERVICES.map((service) => {
   return `${service.name}: +${added} (today ${totalToday}/${perService})`;
 });
 
+if (cleanupChanged) console.log("Cleaned awkward wording in existing generated summaries.");
 console.log(`Generated ${newItems.length} local text updates for ${date}.`);
 console.log(serviceSummary.join("\n"));
 console.log(`Region priority: Gyeonggi -> Seoul -> Incheon`);
