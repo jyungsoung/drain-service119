@@ -19,7 +19,7 @@ async function request(url, options = {}) {
       signal: AbortSignal.timeout(20000),
       ...options,
       headers: {
-        "user-agent": "drain119-wordpress-capability-check/1.0",
+        "user-agent": "drain119-wordpress-capability-check/1.1",
         accept: "application/json,text/plain,*/*",
         ...(options.headers || {}),
       },
@@ -62,10 +62,11 @@ report.public.restRoot = {
 };
 
 const types = await request(`${base}/wp-json/wp/v2/types?context=view`);
+const typeKeys = types.json && typeof types.json === "object" ? Object.keys(types.json) : [];
 report.public.types = {
   ok: types.ok,
   status: types.status,
-  keys: types.json && typeof types.json === "object" ? Object.keys(types.json) : [],
+  keys: typeKeys,
   error: types.error,
 };
 
@@ -88,12 +89,16 @@ report.public.pages = {
 const rootJson = restRoot.json && typeof restRoot.json === "object" ? restRoot.json : null;
 const namespaces = Array.isArray(rootJson?.namespaces) ? rootJson.namespaces : [];
 const routes = rootJson?.routes && typeof rootJson.routes === "object" ? Object.keys(rootJson.routes) : [];
-const kboardNamespaces = namespaces.filter((value) => /kboard|board/i.test(String(value)));
-const kboardRoutes = routes.filter((value) => /kboard|board/i.test(String(value)));
+const explicitKboard = (value) => /(^|[\/_-])kboard([\/_-]|$)/i.test(String(value));
+const explicitBoardSegment = (value) => /(^|\/)boards?(\/|$)/i.test(String(value));
+const kboardNamespaces = namespaces.filter((value) => explicitKboard(value));
+const kboardRoutes = routes.filter((value) => explicitKboard(value) || explicitBoardSegment(value));
+const kboardTypes = typeKeys.filter((value) => explicitKboard(value));
 report.kboard = {
   namespaces: kboardNamespaces,
   routes: kboardRoutes.slice(0, 100),
-  restExposed: Boolean(kboardNamespaces.length || kboardRoutes.length),
+  postTypes: kboardTypes,
+  restExposed: Boolean(kboardNamespaces.length || kboardRoutes.length || kboardTypes.length),
 };
 
 if (report.authConfigured) {
@@ -110,9 +115,7 @@ if (report.authConfigured) {
 
   for (const resource of ["posts", "pages"]) {
     const options = await request(`${base}/wp-json/wp/v2/${resource}`, { method: "OPTIONS", headers: authHeaders });
-    const methods = options.json?.routes?.[`${new URL(base).pathname}/wp-json/wp/v2/${resource}`]?.methods
-      || options.json?.endpoints?.flatMap((endpoint) => endpoint.methods || [])
-      || [];
+    const methods = options.json?.endpoints?.flatMap((endpoint) => endpoint.methods || []) || [];
     report.authenticated[resource] = {
       ok: options.ok,
       status: options.status,
@@ -134,8 +137,8 @@ report.conclusion = {
   safeToAutomateNormalPosts: Boolean(report.authenticated.user?.ok && report.authenticated.posts?.methods?.includes("POST")),
   safeToAutomateKboard: false,
   note: report.kboard.restExposed
-    ? "KBoard-like REST routes were discovered, but a write test is intentionally not performed by this checker."
-    : "No KBoard REST route was discovered. Do not substitute ordinary WordPress posts for KBoard publishing without explicit approval.",
+    ? "Explicit KBoard/board REST surface was discovered, but a write test is intentionally not performed by this checker."
+    : "No explicit KBoard REST route or post type was discovered. Do not substitute ordinary WordPress posts for KBoard publishing without explicit approval.",
 };
 
 const output = path.join(outDir, "wordpress-capability-report.json");
