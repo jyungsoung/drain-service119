@@ -8,6 +8,8 @@ import { allLeakRegionSegments } from "./leak-detection/region-data";
 import { priorityRegions } from "./priority-regions";
 
 const baseUrl = "https://service.drain119.co.kr";
+// 기존 사이트 URL 약 3천여 개와 합쳐도 sitemap 50,000 URL 제한을 넘지 않도록 최근 지역글만 유지합니다.
+const sitemapWorkCases = workCases.slice(0, 45000);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -44,13 +46,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
       images: [`${baseUrl}${service.image}`],
     })),
-    { url: `${baseUrl}/work-sites`, changeFrequency: "weekly", priority: 0.8 },
-    ...workCases.map((work) => ({
+    { url: `${baseUrl}/work-sites`, changeFrequency: "daily", priority: 0.8 },
+    ...sitemapWorkCases.map((work) => ({
       url: `${baseUrl}/work-sites/${work.slug}`,
       changeFrequency: "monthly" as const,
-      priority: 0.75,
+      priority: 0.72,
       lastModified: work.updatedAt || work.date,
-      images: [`${baseUrl}${work.image}`],
+      ...(work.image ? { images: [`${baseUrl}${work.image}`] } : {}),
     })),
     ...allServiceAreaSegments().filter((segments) => {
       if (segments[0] === "gyeonggi") return false;
