@@ -1,3 +1,5 @@
+import generatedCasesRaw from "./generated-cases.json";
+
 export type WorkCase = {
   slug: string;
   title: string;
@@ -26,10 +28,11 @@ export type WorkCase = {
   }[];
 };
 
-// 지역 + 서비스 + 짧은 사연 중심의 글만 등록해도 됩니다. 사진/영상은 선택 사항입니다.
-// regionSlug만 정확히 입력하면 서울·경기 해당 지역 대표페이지에도 자동으로 연결됩니다.
-// 그러면 시공현장 목록·상세페이지·해당 지역 대표페이지·사이트맵에 함께 반영됩니다.
-export const workCases: WorkCase[] = [
+// 자동 생성 글은 generated-cases.json에 저장하고, 실제 현장 기록은 manualWorkCases에 유지합니다.
+// 자동 생성 글은 실제 방문·작업 사실을 꾸며 쓰지 않고 지역 서비스 안내 형식으로만 생성합니다.
+const generatedCases = generatedCasesRaw as WorkCase[];
+
+const manualWorkCases: WorkCase[] = [
   {
     slug: "yongsan-leak-detection-pressure-window-check-20260825",
     title: "용산 누수탐지, 배관 압력검사와 창호 균열을 함께 확인한 현장",
@@ -124,6 +127,8 @@ export const workCases: WorkCase[] = [
     ],
   },
 ];
+
+export const workCases: WorkCase[] = [...generatedCases, ...manualWorkCases];
 
 export const WORK_CASE_TEMPLATE: WorkCase = {
   slug: "지역-동-서비스-날짜",
