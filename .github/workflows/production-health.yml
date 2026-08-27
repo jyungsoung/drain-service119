@@ -1,0 +1,106 @@
+name: Production Health
+
+on:
+  schedule:
+    # 매일 01:10 KST
+    - cron: '10 16 * * *'
+    # 매주 월요일 01:40 KST 전체 점검
+    - cron: '40 16 * * 0'
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 점검 범위
+        required: true
+        default: daily
+        type: choice
+        options:
+          - daily
+          - full
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: production-health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Choose audit scope
+        id: scope
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            MODE="${{ inputs.scope }}"
+          elif [ "${{ github.event.schedule }}" = "40 16 * * 0" ]; then
+            MODE="full"
+          else
+            MODE="daily"
+          fi
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          echo "Selected mode: $MODE"
+
+      - name: Run production SEO health gate
+        id: gate
+        continue-on-error: true
+        run: node scripts/seo-gate.mjs --mode "${{ steps.scope.outputs.mode }}" --out-dir "$RUNNER_TEMP/seo-audit"
+
+      - name: Upload SEO reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-health-${{ steps.scope.outputs.mode }}-${{ github.run_number }}
+          path: ${{ runner.temp }}/seo-audit/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Create or update incident issue
+        if: steps.gate.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          MODE: ${{ steps.scope.outputs.mode }}
+        shell: bash
+        run: |
+          TITLE="[자동점검] 우리동네전문가 사이트 이상"
+          EXISTING=$(gh issue list --state open --search "in:title $TITLE" --json number --jq '.[0].number // empty')
+          BODY="자동 사이트 점검에서 이상이 감지되었습니다.\n\n- 점검 범위: $MODE\n- 실행: $RUN_URL\n- 상세 JSON/CSV: 해당 Actions 실행의 artifact 확인\n\n사이트 코드는 자동 수정하지 않았습니다."
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh issue create --title "$TITLE" --body "$BODY"
+          fi
+
+      - name: Close recovered incident issue
+        if: steps.gate.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        shell: bash
+        run: |
+          TITLE="[자동점검] 우리동네전문가 사이트 이상"
+          EXISTING=$(gh issue list --state open --search "in:title $TITLE" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "자동 점검이 정상으로 회복되었습니다.\n\n- 정상 확인 실행: $RUN_URL"
+            gh issue close "$EXISTING" --reason completed
+          fi
+
+      - name: Fail workflow when gate failed
+        if: steps.gate.outcome == 'failure'
+        run: exit 1

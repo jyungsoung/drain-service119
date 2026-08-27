@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seo:daily": "node scripts/seo-gate.mjs --mode daily",
+    "seo:full": "node scripts/seo-gate.mjs --mode full",
+    "verify": "npm run build && npm run seo:daily"
   },
   "dependencies": {
     "@types/leaflet": "^1.9.22",
