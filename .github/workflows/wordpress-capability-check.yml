@@ -6,7 +6,7 @@ on:
     paths:
       - 'scripts/wordpress-capability-check.mjs'
       - '.github/workflows/wordpress-capability-check.yml'
-      - 'AGENTS.md'
+      - 'WORDPRESS_AUTOMATION.md'
   workflow_dispatch:
 
 permissions:
@@ -16,11 +16,6 @@ jobs:
   capability:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      DRAIN119_WP_BASE: https://drain119.co.kr
-      DRAIN119_WP_USER: ${{ secrets.DRAIN119_WP_USER }}
-      DRAIN119_WP_APP_PASSWORD: ${{ secrets.DRAIN119_WP_APP_PASSWORD }}
-      WP_CAPABILITY_OUT_DIR: ${{ runner.temp }}/wordpress-capability
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,7 +26,14 @@ jobs:
           node-version: 22
 
       - name: Probe WordPress and KBoard capabilities
-        run: node scripts/wordpress-capability-check.mjs
+        env:
+          DRAIN119_WP_BASE: https://drain119.co.kr
+          DRAIN119_WP_USER: ${{ secrets.DRAIN119_WP_USER }}
+          DRAIN119_WP_APP_PASSWORD: ${{ secrets.DRAIN119_WP_APP_PASSWORD }}
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/wordpress-capability"
+          WP_CAPABILITY_OUT_DIR="$RUNNER_TEMP/wordpress-capability" node scripts/wordpress-capability-check.mjs
 
       - name: Upload capability report
         if: always()
