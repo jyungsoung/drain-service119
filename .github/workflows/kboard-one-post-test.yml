@@ -1,0 +1,48 @@
+name: KBoard One Post Test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/kboard-one-post-test.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Publish one KBoard connection test post
+        env:
+          DRAIN119_WP_BASE: https://drain119.co.kr
+          DRAIN119_WP_USER: ${{ secrets.DRAIN119_WP_USER }}
+          DRAIN119_WP_APP_PASSWORD: ${{ secrets.DRAIN119_WP_APP_PASSWORD }}
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/kboard-test"
+          node scripts/kboard-bridge-client.mjs publish \
+            --board-id 1 \
+            --title "응급배관119 시공사례 자동등록 연결 확인" \
+            --content "<p>응급배관119 시공사례 게시판의 자동등록 연결을 확인하기 위한 시험 글입니다.</p><p>실제 고객 현장 사례가 아니며, KBoard 자동발행 기능이 정상적으로 연결되었는지 확인하기 위해 등록되었습니다.</p>" \
+            --dedupe-key "kboard-connection-test-20260827-v1" \
+            | tee "$RUNNER_TEMP/kboard-test/response.json"
+
+      - name: Upload test response
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kboard-one-post-test-${{ github.run_number }}
+          path: ${{ runner.temp }}/kboard-test/
+          if-no-files-found: warn
+          retention-days: 7
