@@ -9,6 +9,7 @@
     "lint": "next lint",
     "seo:daily": "node scripts/seo-gate.mjs --mode daily",
     "seo:full": "node scripts/seo-gate.mjs --mode full",
+    "updates:generate": "node scripts/generate-daily-local-updates.mjs --per-service=40",
     "verify": "npm run build && npm run seo:daily"
   },
   "dependencies": {
