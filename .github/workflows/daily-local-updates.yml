@@ -8,6 +8,7 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Manual recovery trigger: 2026-08-28 KST
 permissions:
   contents: write
   issues: write
