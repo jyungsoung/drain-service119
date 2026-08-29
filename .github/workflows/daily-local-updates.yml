@@ -2,13 +2,16 @@ name: Daily Local Updates
 
 on:
   schedule:
-    # 매일 02:30 KST (전날 17:30 UTC)
+    # 1차: 매일 02:30 KST (전날 17:30 UTC)
     - cron: '30 17 * * *'
+    # 2차 복구: 매일 03:30 KST (전날 18:30 UTC)
+    - cron: '30 18 * * *'
+    # 3차 최종 복구: 매일 04:30 KST (전날 19:30 UTC)
+    - cron: '30 19 * * *'
   push:
     branches: [main]
   workflow_dispatch:
 
-# Manual recovery trigger: 2026-08-29 KST
 permissions:
   contents: write
   issues: write
@@ -39,7 +42,25 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check whether today's 200 updates already exist
+        id: precheck
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const path = 'app/work-sites/generated-cases.json';
+          const items = fs.existsSync(path) ? JSON.parse(fs.readFileSync(path, 'utf8')) : [];
+          const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+          const services = ['싱크대막힘','변기막힘','하수구막힘','누수탐지','고압세척'];
+          const today = items.filter((item) => item.date === date);
+          const counts = Object.fromEntries(services.map((service) => [service, today.filter((item) => item.service === service).length]));
+          const complete = today.length === 200 && services.every((service) => counts[service] === 40);
+          console.log({ date, total: today.length, counts, complete });
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `date=${date}\ncomplete=${complete ? 'true' : 'false'}\nfirst_slug=${today[0]?.slug ?? ''}\n`);
+          NODE
+
       - name: Generate 200 local text updates
+        if: steps.precheck.outputs.complete != 'true'
         run: npm run updates:generate
 
       - name: Validate daily distribution
@@ -68,7 +89,7 @@ jobs:
         shell: bash
         run: |
           if git diff --quiet -- app/work-sites/generated-cases.json; then
-            echo "No new generated updates to commit."
+            echo "Today's 200 updates already exist. No duplicate commit needed."
             exit 0
           fi
           git config user.name "drain119-automation"
