@@ -138,7 +138,7 @@ export default function HanamHome() {
         <div className="heroGlow" />
         <div className="heroContent">
           <p className="eyebrow"><span /> 하남 전 지역 상담 · 365일 접수</p>
-          <h1>하남 싱크대막힘·변기막힘,<br /><em>원인부터 정확하게 해결합니다</em></h1>
+          <h1>하남 배관 서비스 지역 안내,<br /><em>동별 증상·점검 정보를 확인하세요</em></h1>
           <p className="heroCopy">물이 안 내려가고 악취까지 올라온다면<br className="mobileBreak" /> 배관 내부 상태를 먼저 확인해야 합니다.</p>
           <div className="heroActions"><a className="primary" href="tel:16681321">지금 전화 상담 <b>1668-1321</b></a></div>
           <div className="trust"><span>✓ 작업 전 설명</span><span>✓ 현장 맞춤 장비</span><span>✓ 하남 지역 출동</span></div>
