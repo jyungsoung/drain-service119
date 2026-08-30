@@ -62,7 +62,7 @@ export default async function ServicePage({ params }: Props) {
     </header>
     <nav className="regionBreadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><a href="/services">배관 서비스</a><span>›</span><b>{service.title}</b></nav>
     <section className="serviceDetailHero">
-      <div><p className="eyebrow"><span /> 우리동네전문가 서비스 안내</p><h1>{service.title},<br /><em>증상과 원인부터 확인합니다</em></h1><p>{service.description}</p><div className="heroActions"><a className="primary" href="tel:16681321">{service.title} 상담 <b>1668-1321</b></a><a className="secondary" href="#regions">지역 페이지 찾기 ↓</a></div></div>
+      <div><p className="eyebrow"><span /> 우리동네전문가 서비스 안내</p><h1>{service.title} 증상·원인 안내,<br /><em>점검 전 확인할 내용을 살펴보세요</em></h1><p>{service.description}</p><div className="heroActions"><a className="primary" href="tel:16681321">{service.title} 상담 <b>1668-1321</b></a><a className="secondary" href="#regions">지역 페이지 찾기 ↓</a></div></div>
       <figure><img src={service.image} alt={service.alt} /><figcaption><small>{service.title} 점검</small><strong>현장 상태에 맞는<br />확인 순서를 안내합니다.</strong></figcaption></figure>
     </section>
     <section className="serviceGuidance" id="symptoms">

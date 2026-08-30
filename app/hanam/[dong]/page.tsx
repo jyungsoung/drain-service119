@@ -63,7 +63,7 @@ export default async function DongDrainPage({ params }: PageProps) {
       <section className="dongHero">
         <div>
           <p className="eyebrow"><span /> 하남시 {area.name} 배관 상담</p>
-          <h1>{area.name} 싱크대막힘·변기막힘,<br /><em>원인부터 정확하게 확인합니다</em></h1>
+          <h1>하남시 {area.name} 배관 상담 지역 안내,<br /><em>증상별 점검 정보를 확인하세요</em></h1>
           <p>{area.areaCopy}</p>
           <div className="trust regionalAvailability"><span>✓ 24시간 상담·출동 가능</span><span>✓ 연중무휴</span><span>✓ 새벽 3시 상담 가능</span></div>
           <div className="heroActions"><a className="primary" href="tel:16681321">{area.name} 전화 상담 <b>1668-1321</b></a><a className="secondary" href="#symptom">증상별 점검 보기 ↓</a></div>

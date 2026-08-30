@@ -83,7 +83,7 @@ export default function LeakDetectionPage() {
     <section className="leakHero">
       <div className="leakHeroCopy">
         <p className="eyebrow"><span /> 누수탐지 전용 안내</p>
-        <h1>물자국만 보는 것이 아니라,<br /><em>누수 가능 구간을 단계적으로 좁힙니다</em></h1>
+        <h1>누수 의심 증상·점검 안내,<br /><em>계량기와 물자국 변화를 확인하세요</em></h1>
         <p>계량기 움직임과 벽·바닥의 습기, 배관별 압력 변화를 확인해 누수 가능성을 구분하고 필요한 점검 방향을 안내합니다.</p>
         <div className="heroActions"><a className="primary" href="tel:16681321">누수탐지 상담 <b>1668-1321</b></a></div>
         <div className="trust"><span>✓ 배관 계통 구분</span><span>✓ 점검 전 범위 안내</span><span>✓ 확인 결과 설명</span></div>

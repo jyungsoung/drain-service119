@@ -39,7 +39,7 @@ export default function ServicesIndex() {
     </header>
     <section className="regionIndexHero serviceIndexHero">
       <p className="kicker">SERVICE GUIDE</p>
-      <h1>싱크대·변기·하수구막힘,<br /><em>증상에 맞는 배관 작업을 확인하세요</em></h1>
+      <h1>배관 증상·서비스 안내,<br /><em>필요한 점검 순서를 확인하세요</em></h1>
       <p>막힌 위치와 배관 구조에 따라 필요한 점검과 장비가 달라집니다. 배관막힘·내시경·고압세척 서비스별 확인 내용을 살펴보고 현재 지역 페이지로 이동할 수 있습니다.</p>
       <div className="heroActions"><a className="primary" href="tel:16681321">배관막힘 상담 1668-1321</a><a className="secondary messageButton" href="/leak-detection">누수탐지 전용페이지</a></div>
     </section>

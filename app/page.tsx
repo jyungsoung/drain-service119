@@ -100,7 +100,7 @@ export default function Home() {
         <div className="heroGlow" />
         <div className="heroContent">
           <p className="eyebrow"><span /> 지역별 배관막힘·고압세척 서비스</p>
-          <h1>싱크대·변기·하수구막힘,<br /><em>현장에 맞춰 정확하게 점검합니다</em></h1>
+          <h1>우리동네 배관 증상·지역 안내,<br /><em>현재 위치와 증상을 확인하세요</em></h1>
           <p className="heroCopy">배수 지연과 역류, 악취가 반복될 때 막힌 구간을 구분하고 배관 내시경·고압세척 등 필요한 작업을 지역별로 상담합니다.</p>
           <div className="trust availabilityTrust"><span>✓ 24시간 상담·출동 가능</span><span>✓ 연중무휴</span><span>✓ 새벽 3시 상담 가능</span></div>
           <div className="heroActions"><a className="primary" href="tel:16681321">전화 상담 <b>1668-1321</b></a></div>
