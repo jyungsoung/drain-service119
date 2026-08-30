@@ -92,7 +92,7 @@ export default function RegionalHubPage({ region }: { region: PriorityRegion }) 
       <section className="regionHubHero" id="top">
         <div className="regionHubHeroCopy">
           <p className="eyebrow"><span /> {region.fullName} 전 지역 배관 상담</p>
-          <h1>{region.name} 싱크대막힘·변기막힘·하수구막힘,<br /><em>현장 구조부터 확인합니다</em></h1>
+          <h1>{region.name} 배관 서비스 지역 안내,<br /><em>동별 안내와 지역글을 확인하세요</em></h1>
           <p>{region.heroCopy}</p>
           <div className="hubAvailability"><span>24시간 상담·출동 가능</span><span>연중무휴</span><span>현장 일정 확인 후 안내</span></div>
           <div className="heroActions"><a className="primary" href="tel:16681321">{region.name} 전화 상담 <b>1668-1321</b></a><a className="secondary" href="#areas">동별 안내 보기 ↓</a></div>
