@@ -118,7 +118,7 @@ export default async function LeakRegionPage({ params }: Props) {
     <nav className="regionBreadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span>{area.breadcrumbs.map((crumb, index) => <span className="breadcrumbPair" key={`${crumb.href}-${index}`}><a href={crumb.href}>{crumb.name}</a>{index < area.breadcrumbs.length - 1 && <i>›</i>}</span>)}</nav>
 
     <section className="regionHero leakRegionalHero">
-      <div><p className="eyebrow"><span /> {area.fullName} 누수탐지</p><h1>{area.label} 누수탐지,<br /><em>물자국과 계량기 변화부터 확인합니다</em></h1><p>{profile} 눈에 보이는 흔적만으로 위치를 단정하지 않고 배관 계통과 주변 상태를 단계적으로 확인합니다.</p><div className="heroActions"><a className="primary" href="tel:16681321">{area.label} 누수 상담 <b>1668-1321</b></a></div><div className="trust"><span>✓ 지역별 누수 안내</span><span>✓ 배관 계통 구분</span><span>✓ 점검 전 범위 설명</span></div></div>
+      <div><p className="eyebrow"><span /> {area.fullName} 누수탐지</p><h1>{area.label} 누수 의심 증상·점검 안내,<br /><em>물자국과 계량기 변화를 확인하세요</em></h1><p>{profile} 눈에 보이는 흔적만으로 위치를 단정하지 않고 배관 계통과 주변 상태를 단계적으로 확인합니다.</p><div className="heroActions"><a className="primary" href="tel:16681321">{area.label} 누수 상담 <b>1668-1321</b></a></div><div className="trust"><span>✓ 지역별 누수 안내</span><span>✓ 배관 계통 구분</span><span>✓ 점검 전 범위 설명</span></div></div>
       <figure><img src={leakDetectionService.image} alt={`${area.label} 누수탐지 장비로 배관 누수 의심 구간을 확인하는 작업자`} width="1448" height="1086" fetchPriority="high" /><figcaption><small>{area.label} LEAK DETECTION</small><strong>보이는 물자국과 배관 상태를<br />함께 확인합니다.</strong></figcaption></figure>
     </section>
 
