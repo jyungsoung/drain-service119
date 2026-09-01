@@ -6,10 +6,12 @@ import { workCases } from "./work-sites/cases-data";
 import { drainServiceLandings } from "./services/service-data";
 import { allLeakRegionSegments } from "./leak-detection/region-data";
 import { priorityRegions } from "./priority-regions";
+import { getWorkCasePageCount, getWorkCasePageHref } from "./work-sites/pagination";
 
 const baseUrl = "https://service.drain119.co.kr";
 // 기존 사이트 URL 약 3천여 개와 합쳐도 sitemap 50,000 URL 제한을 넘지 않도록 최근 지역글만 유지합니다.
 const sitemapWorkCases = workCases.slice(0, 45000);
+const workCaseArchivePages = Array.from({ length: Math.max(0, getWorkCasePageCount() - 1) }, (_, index) => index + 2);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -47,6 +49,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: [`${baseUrl}${service.image}`],
     })),
     { url: `${baseUrl}/work-sites`, changeFrequency: "daily", priority: 0.8 },
+    ...workCaseArchivePages.map((page) => ({
+      url: `${baseUrl}${getWorkCasePageHref(page)}`,
+      changeFrequency: "daily" as const,
+      priority: 0.65,
+    })),
     ...sitemapWorkCases.map((work) => ({
       url: `${baseUrl}/work-sites/${work.slug}`,
       changeFrequency: "monthly" as const,
