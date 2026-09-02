@@ -15,6 +15,10 @@ export type WorkCase = {
   image?: string;
   imageAlt?: string;
   details: string[];
+  faqs?: { question: string; answer: string }[];
+  // 자동 생성 본문의 summary + details + FAQ 질문·답변을 공백으로 이은 글자 수입니다.
+  bodyLength?: number;
+  contentVersion?: 2;
   symptoms?: string[];
   diagnosis?: string[];
   equipment?: string[];
