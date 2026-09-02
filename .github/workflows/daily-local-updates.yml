@@ -73,8 +73,13 @@ jobs:
           const services = ['싱크대막힘','변기막힘','하수구막힘','누수탐지','고압세척'];
           const today = items.filter((item) => item.date === date);
           const counts = Object.fromEntries(services.map((service) => [service, today.filter((item) => item.service === service).length]));
-          console.log({ date, total: today.length, counts });
+          const v2Today = today.filter((item) => item.contentVersion === 2);
+          const invalidLength = v2Today.filter((item) => !Number.isInteger(item.bodyLength) || item.bodyLength < 1450 || item.bodyLength > 1550);
+          const invalidFaq = v2Today.filter((item) => !Array.isArray(item.faqs) || item.faqs.length !== 3 || item.faqs.some((faq) => !faq.question || !faq.answer));
+          console.log({ date, total: today.length, counts, contentV2: v2Today.length, invalidLength: invalidLength.length, invalidFaq: invalidFaq.length });
           if (today.length !== 200 || services.some((service) => counts[service] !== 40)) process.exit(1);
+          if (v2Today.length && v2Today.length !== today.length) process.exit(1);
+          if (invalidLength.length || invalidFaq.length) process.exit(1);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `date=${date}\nfirst_slug=${today[0].slug}\n`);
           NODE
         id: generated
